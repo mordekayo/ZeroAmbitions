@@ -3,12 +3,12 @@
 using UnrealBuildTool;
 using System.Collections.Generic;
 
-public class GameCodeEditorTarget : TargetRules
+public class ZeroAmbitionsEditorTarget : TargetRules
 {
-	public GameCodeEditorTarget( TargetInfo Target) : base(Target)
+	public ZeroAmbitionsEditorTarget( TargetInfo Target) : base(Target)
 	{
 		Type = TargetType.Editor;
 		DefaultBuildSettings = BuildSettingsVersion.V2;
-		ExtraModuleNames.AddRange( new string[] { "GameCode" } );
+		ExtraModuleNames.AddRange( new string[] { "ZeroAmbitions" } );
 	}
 }

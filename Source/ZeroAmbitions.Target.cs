@@ -3,12 +3,12 @@
 using UnrealBuildTool;
 using System.Collections.Generic;
 
-public class GameCodeTarget : TargetRules
+public class ZeroAmbitionsTarget : TargetRules
 {
-	public GameCodeTarget( TargetInfo Target) : base(Target)
+	public ZeroAmbitionsTarget( TargetInfo Target) : base(Target)
 	{
 		Type = TargetType.Game;
 		DefaultBuildSettings = BuildSettingsVersion.V2;
-		ExtraModuleNames.AddRange( new string[] { "GameCode" } );
+		ExtraModuleNames.AddRange( new string[] { "ZeroAmbitions" } );
 	}
 }
