@@ -6,7 +6,7 @@
 #include "Components/MovementComponents/ZABaseCharacterMovementComponent.h"
 #include "Components/CharacterComponents/CharacterAttributesComponent.h"
 #include "Components/CharacterComponents/CharacterEquipmentComponent.h"
-#include "Controllers/GCPlayerController.h"
+#include "Controllers/ZAPlayerController.h"
 #include "GameFramework/CharacterMovementComponent.h"
 #include "ZeroAmbitionsTypes.h"
 #include "GameFramework/PhysicsVolume.h"
@@ -46,7 +46,7 @@ void AZABaseCharacter::Tick(float DeltaTime)
 void AZABaseCharacter::PossessedBy(AController* NewController)
 {
 	Super::PossessedBy(NewController);
-	GCPlayerController = Cast<AGCPlayerController>(NewController);
+	ZAPlayerController = Cast<AZAPlayerController>(NewController);
 }
 
 const UCharacterEquipmentComponent* AZABaseCharacter::GetCharacterEquipmentComponent() const
