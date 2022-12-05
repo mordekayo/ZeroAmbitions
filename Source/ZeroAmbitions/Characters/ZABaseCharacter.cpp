@@ -17,7 +17,7 @@
 AZABaseCharacter::AZABaseCharacter(const FObjectInitializer& ObjectInitializer)
 	:Super(ObjectInitializer.SetDefaultSubobjectClass<UZABaseCharacterMovementComponent>(ACharacter::CharacterMovementComponentName))
 {
-	GCBaseCharacterMovementComponent = StaticCast<UZABaseCharacterMovementComponent*>(GetCharacterMovement());
+	ZABaseCharacterMovementComponent = StaticCast<UZABaseCharacterMovementComponent*>(GetCharacterMovement());
 
 	GetMesh()->CastShadow = true;
 	GetMesh()->bCastDynamicShadow = true;
@@ -92,7 +92,7 @@ void AZABaseCharacter::StopSprint()
 
 UZABaseCharacterMovementComponent* AZABaseCharacter::GetBaseCharacterMovementComponent() const
 {
-	return GCBaseCharacterMovementComponent;
+	return ZABaseCharacterMovementComponent;
 }
 
 void AZABaseCharacter::OnSprintStart_Implementation()
@@ -107,8 +107,8 @@ void AZABaseCharacter::OnSprintEnd_Implementation()
 
 bool AZABaseCharacter::CanSprint()
 {
-	return GetCharacterMovement()->IsMovingOnGround() && !GCBaseCharacterMovementComponent->IsOutOfStamina() &&
-		!GCBaseCharacterMovementComponent->IsCrouching();
+	return GetCharacterMovement()->IsMovingOnGround() && !ZABaseCharacterMovementComponent->IsOutOfStamina() &&
+		!ZABaseCharacterMovementComponent->IsCrouching();
 }
 
 void AZABaseCharacter::EnableRagdoll()
@@ -119,15 +119,15 @@ void AZABaseCharacter::EnableRagdoll()
 
 void AZABaseCharacter::TryChangeSprintState(float DeltaTime)
 {
-	if (bIsSprintRequested && !GCBaseCharacterMovementComponent->IsSprinting() && CanSprint() && !FMath::IsNearlyZero(GCBaseCharacterMovementComponent->GetCurrentMoveForwardInput()))
+	if (bIsSprintRequested && !ZABaseCharacterMovementComponent->IsSprinting() && CanSprint() && !FMath::IsNearlyZero(ZABaseCharacterMovementComponent->GetCurrentMoveForwardInput()))
 	{
-		GCBaseCharacterMovementComponent->StartSprint();
+		ZABaseCharacterMovementComponent->StartSprint();
 		OnSprintStart();
 	}
 
-	if (GCBaseCharacterMovementComponent->IsSprinting() && (FMath::IsNearlyZero(GCBaseCharacterMovementComponent->GetCurrentMoveForwardInput()) || !bIsSprintRequested || !CanSprint()))
+	if (ZABaseCharacterMovementComponent->IsSprinting() && (FMath::IsNearlyZero(ZABaseCharacterMovementComponent->GetCurrentMoveForwardInput()) || !bIsSprintRequested || !CanSprint()))
 	{
-		GCBaseCharacterMovementComponent->StopSprint();
+		ZABaseCharacterMovementComponent->StopSprint();
 		OnSprintEnd();
 	}
 }
@@ -187,8 +187,8 @@ void AZABaseCharacter::StopFire()
 bool AZABaseCharacter::CanJumpInternal_Implementation() const
 {
 	return Super::CanJumpInternal_Implementation() &&
-		!GCBaseCharacterMovementComponent->IsCrouching() &&
-		!GCBaseCharacterMovementComponent->IsOutOfStamina();
+		!ZABaseCharacterMovementComponent->IsCrouching() &&
+		!ZABaseCharacterMovementComponent->IsOutOfStamina();
 }
 
 void AZABaseCharacter::OnDeath()

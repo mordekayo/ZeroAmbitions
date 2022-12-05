@@ -101,7 +101,7 @@ protected:
 
 	virtual bool CanCrouch();
 	
-	UZABaseCharacterMovementComponent* GCBaseCharacterMovementComponent;
+	UZABaseCharacterMovementComponent* ZABaseCharacterMovementComponent;
 
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Character | Components")
 	class UCharacterAttributesComponent* CharacterAttributesComponent;
