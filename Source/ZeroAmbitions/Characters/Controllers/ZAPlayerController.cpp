@@ -3,11 +3,14 @@
 
 #include "ZAPlayerController.h"
 #include "../ZABaseCharacter.h"
+#include "Components/CharacterComponents/CharacterEquipmentComponent.h"
+#include "UI/Widgets/AmmoWidget.h"
 
 void AZAPlayerController::SetPawn(APawn* InPawn)
 {
 	Super::SetPawn(InPawn);
 	CachedBaseCharacter = Cast<AZABaseCharacter>(InPawn);
+	CreateAndInitizalizeWidgets();
 }
 
 bool AZAPlayerController::GetIgnoreCameraPitch() const
@@ -37,6 +40,9 @@ void AZAPlayerController::SetupInputComponent()
 	InputComponent->BindAction("Sprint", EInputEvent::IE_Released, this, &AZAPlayerController::StopSprint);
 	InputComponent->BindAction("Fire", EInputEvent::IE_Pressed, this, &AZAPlayerController::StartFire);
 	InputComponent->BindAction("Fire", EInputEvent::IE_Released, this, &AZAPlayerController::StopFire);
+	InputComponent->BindAction("Reload", EInputEvent::IE_Pressed, this, &AZAPlayerController::Reload);
+	InputComponent->BindAction("NextItem", EInputEvent::IE_Pressed, this, &AZAPlayerController::NextItem);
+	InputComponent->BindAction("PreviousItem", EInputEvent::IE_Pressed, this, &AZAPlayerController::PreviousItem);
 }
 
 void AZAPlayerController::MoveForward(float Value)
@@ -139,5 +145,51 @@ void AZAPlayerController::StopFire()
 	if (CachedBaseCharacter.IsValid())
 	{
 		CachedBaseCharacter->StopFire();
+	}
+}
+
+void AZAPlayerController::Reload()
+{
+	if(CachedBaseCharacter.IsValid())
+	{
+		CachedBaseCharacter->Reload();
+	}
+}
+
+void AZAPlayerController::NextItem()
+{
+	if(CachedBaseCharacter.IsValid())
+	{
+		CachedBaseCharacter->NextItem();
+	}
+}
+
+void AZAPlayerController::PreviousItem()
+{
+	if(CachedBaseCharacter.IsValid())
+	{
+		CachedBaseCharacter->PreviousItem();
+	}
+}
+
+void AZAPlayerController::CreateAndInitizalizeWidgets()
+{
+	if(!IsValid(PlayerHUDWidget))
+	{
+		PlayerHUDWidget = CreateWidget<UPlayerHUDWidget>(GetWorld(), PlayerHUDWidgetClass);
+		if(IsValid(PlayerHUDWidget))
+		{
+			PlayerHUDWidget->AddToViewport();
+		}
+	}
+
+	if(CachedBaseCharacter.IsValid() && IsValid(PlayerHUDWidget))
+	{
+		UAmmoWidget* AmmoWidget = PlayerHUDWidget->GetAmmoWidget();
+		if (IsValid(AmmoWidget))
+		{
+			UCharacterEquipmentComponent* CharacterEquipment = CachedBaseCharacter->GetCharacterEquipmentComponent_Mutable();
+			CharacterEquipment->OnCurrentWeaponAmmoChangedEvent.AddUFunction(AmmoWidget, FName("UpdateAmmoCount"));
+		}
 	}
 }

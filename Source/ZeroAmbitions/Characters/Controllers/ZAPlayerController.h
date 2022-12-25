@@ -4,6 +4,7 @@
 
 #include "CoreMinimal.h"
 #include "GameFramework/PlayerController.h"
+#include "UI/Widgets/PlayerHUDWidget.h"
 #include "ZAPlayerController.generated.h"
 
 /**
@@ -23,8 +24,10 @@ public:
 protected:
 	virtual void SetupInputComponent() override;
 
+	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Widgets")
+	TSubclassOf<UPlayerHUDWidget> PlayerHUDWidgetClass;
 private:
-
+	
 	bool bIgnoreCameraPitch = false;
 
 	void MoveForward(float Value);
@@ -41,5 +44,15 @@ private:
 	
 	void StartFire();
 	void StopFire();
+	void Reload();
+
+	void NextItem();
+	void PreviousItem();
+	
 	TSoftObjectPtr<class AZABaseCharacter> CachedBaseCharacter;
+
+	void CreateAndInitizalizeWidgets();
+
+	UPlayerHUDWidget* PlayerHUDWidget = nullptr;
+	
 };

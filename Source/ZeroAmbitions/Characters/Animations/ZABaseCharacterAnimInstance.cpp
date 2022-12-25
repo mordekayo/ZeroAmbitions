@@ -22,7 +22,7 @@ void UZABaseCharacterAnimInstance::NativeUpdateAnimation(float DeltaSeconds)
 		return;
 	}
 	
-	UZABaseCharacterMovementComponent* CharacterMovement = CachedBaseCharacter->GetBaseCharacterMovementComponent();
+	UZABaseCharacterMovementComponent* CharacterMovement = CachedBaseCharacter->GetBaseCharacterMovementComponent_Mutable();
 	Speed = CharacterMovement->Velocity.Size();
 	bIsOutOfStamina = CharacterMovement->IsOutOfStamina();
 	bIsFalling = CharacterMovement->IsFalling();

@@ -9,7 +9,6 @@
 #include "Controllers/ZAPlayerController.h"
 #include "GameFramework/CharacterMovementComponent.h"
 #include "ZeroAmbitionsTypes.h"
-#include "GameFramework/PhysicsVolume.h"
 #include "Kismet/KismetSystemLibrary.h"
 #include "Actors/Equipment/Weapons/RangeWeaponItem.h"
 #include "Components/CapsuleComponent.h"
@@ -54,7 +53,17 @@ const UCharacterEquipmentComponent* AZABaseCharacter::GetCharacterEquipmentCompo
 	return CharacterEquipmentComponent;
 }
 
+UCharacterEquipmentComponent* AZABaseCharacter::GetCharacterEquipmentComponent_Mutable() const
+{
+	return CharacterEquipmentComponent;
+}
+
 const UCharacterAttributesComponent* AZABaseCharacter::GetCharacterAttributesComponent() const
+{
+	return CharacterAttributesComponent;
+}
+
+UCharacterAttributesComponent* AZABaseCharacter::GetCharacterAttributesComponent_Mutable() const
 {
 	return CharacterAttributesComponent;
 }
@@ -90,7 +99,7 @@ void AZABaseCharacter::StopSprint()
 	bIsSprintRequested = false;
 }
 
-UZABaseCharacterMovementComponent* AZABaseCharacter::GetBaseCharacterMovementComponent() const
+UZABaseCharacterMovementComponent* AZABaseCharacter::GetBaseCharacterMovementComponent_Mutable() const
 {
 	return ZABaseCharacterMovementComponent;
 }
@@ -168,6 +177,10 @@ float AZABaseCharacter::CalculateIKPelvisOffset() const
 
 void AZABaseCharacter::StartFire()
 {
+	if(CharacterEquipmentComponent->IsEqupping())
+	{
+		return;
+	}
 	ARangeWeaponItem* CurrentRangeWeapon = CharacterEquipmentComponent->GetCurrentRangeWeapon();
 	if (IsValid(CurrentRangeWeapon))
 	{
@@ -184,11 +197,34 @@ void AZABaseCharacter::StopFire()
 	}
 }
 
+void AZABaseCharacter::Reload()
+{
+	if(IsValid(CharacterEquipmentComponent->GetCurrentRangeWeapon()))
+	{
+		CharacterEquipmentComponent->ReloadCurrentWeapon();
+	}
+}
+
+void AZABaseCharacter::NextItem()
+{
+	CharacterEquipmentComponent->EquipNextItem();
+}
+
+void AZABaseCharacter::PreviousItem()
+{
+	CharacterEquipmentComponent->EquipPreviousItem();
+}
+
 bool AZABaseCharacter::CanJumpInternal_Implementation() const
 {
 	return Super::CanJumpInternal_Implementation() &&
 		!ZABaseCharacterMovementComponent->IsCrouching() &&
 		!ZABaseCharacterMovementComponent->IsOutOfStamina();
+}
+
+const UZABaseCharacterMovementComponent* AZABaseCharacter::GetBaseCharacterMovementComponent() const
+{
+	return ZABaseCharacterMovementComponent;
 }
 
 void AZABaseCharacter::OnDeath()
@@ -202,6 +238,6 @@ void AZABaseCharacter::OnDeath()
 
 void AZABaseCharacter::OnStaminaOutOrMax(bool MaxOrOut)
 {
-	GetBaseCharacterMovementComponent()->SetIsOutOfStamina(!MaxOrOut);
+	GetBaseCharacterMovementComponent_Mutable()->SetIsOutOfStamina(!MaxOrOut);
 }
 

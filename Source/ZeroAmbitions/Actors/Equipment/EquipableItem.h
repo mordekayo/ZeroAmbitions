@@ -7,6 +7,7 @@
 #include "ZeroAmbitionsTypes.h"
 #include "EquipableItem.generated.h"
 
+class UAnimMontage;
 UCLASS()
 class ZEROAMBITIONS_API AEquipableItem : public AActor
 {
@@ -15,11 +16,21 @@ class ZEROAMBITIONS_API AEquipableItem : public AActor
 public:
 	EEquipableItemType GetItemType() const;
 
+	FName GetUnEquippedSocketName() const;
+	FName GetEquippedSocketName() const;
 
+	UAnimMontage* GetCharacterEquipAnimMontage() const;
 protected:
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Equipable item")
 	EEquipableItemType ItemType = EEquipableItemType::None;
-public:	
 
+	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Equipable item")
+	UAnimMontage* CharacterEquipAnimMontage;
+
+	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Equipable item")
+	FName UnEquippedSocketName = NAME_None;
+
+	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Equipable item")
+	FName EquippedSocketName = NAME_None;
 
 };

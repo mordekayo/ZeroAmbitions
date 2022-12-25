@@ -39,6 +39,10 @@ public:
 
 	void StartFire();
 	void StopFire();
+	void Reload();
+
+	void NextItem();
+	void PreviousItem();
 
 	UFUNCTION(BlueprintCallable, BlueprintPure)
 	float GetIKLeftFootOffset() const { return IKLeftFootOffset;}
@@ -51,9 +55,12 @@ public:
 
 	virtual bool CanJumpInternal_Implementation() const;
 
-	UZABaseCharacterMovementComponent* GetBaseCharacterMovementComponent() const;
+	const UZABaseCharacterMovementComponent* GetBaseCharacterMovementComponent() const;
+	UZABaseCharacterMovementComponent* GetBaseCharacterMovementComponent_Mutable() const;
 	const UCharacterEquipmentComponent* GetCharacterEquipmentComponent() const;
+	UCharacterEquipmentComponent* GetCharacterEquipmentComponent_Mutable() const;
 	const UCharacterAttributesComponent* GetCharacterAttributesComponent() const;
+	UCharacterAttributesComponent* GetCharacterAttributesComponent_Mutable() const;
 protected:
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "IK settings")
 	bool bIKEnabled = false;
