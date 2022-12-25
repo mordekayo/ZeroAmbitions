@@ -3,6 +3,7 @@
 #pragma once
 
 #include "CoreMinimal.h"
+#include "ZeroAmbitionsTypes.h"
 #include "GameFramework/Pawn.h"
 #include "Turret.generated.h"
 
@@ -25,6 +26,8 @@ public:
 
 	ATurret();
 
+	virtual void PossessedBy(AController* NewController) override;
+	
 	virtual void Tick(float DeltaTime) override;
 
 	void SetCurrentTarget(AActor* NewTarget);
@@ -57,7 +60,7 @@ protected:
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Turret parameters", meta = (ClampMin = 0.0f, UIMin = 0.0f))
 	float MinBarrelPitchAngle = -30.0f;
 
-	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Turret parameters | Fire", meta = (ClampMin = 1.0f, UIMin = 1.0f))
+	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Turret parameters | Fire", meta = (ClampMin = 1.0f, UIMin = 1.0f))
 	float RateOfFire = 300.0f;
 
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Turret parameters | Fire", meta = (ClampMin = 0.0f, UIMin = 0.0f, ClampMax = 1.0f, UIMax = 1.0f))
@@ -65,6 +68,9 @@ protected:
 
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Turret parameters | Fire", meta = (ClampMin = 0.0f, UIMin = 0.0f))
 	float FireDelayTime = 1.5f;
+
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Turret parameters | Team")
+	ETeams Team = ETeams::Enemy;
 	
 private:
 

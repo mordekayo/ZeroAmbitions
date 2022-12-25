@@ -3,6 +3,7 @@
 
 #include "ZABaseCharacter.h"
 // Fill out your copyright notice in the Description page of Project Settings.
+#include "AIController.h"
 #include "Components/MovementComponents/ZABaseCharacterMovementComponent.h"
 #include "Components/CharacterComponents/CharacterAttributesComponent.h"
 #include "Components/CharacterComponents/CharacterEquipmentComponent.h"
@@ -45,7 +46,16 @@ void AZABaseCharacter::Tick(float DeltaTime)
 void AZABaseCharacter::PossessedBy(AController* NewController)
 {
 	Super::PossessedBy(NewController);
-	ZAPlayerController = Cast<AZAPlayerController>(NewController);
+	const AAIController* AIController = Cast<AAIController>(NewController);
+	if(IsValid(AIController))
+	{
+		FGenericTeamId TeamId(static_cast<uint8>(Team));
+	}
+	AZAPlayerController* PlayerController = Cast<AZAPlayerController>(NewController);
+	if(IsValid(PlayerController))
+	{
+		ZAPlayerController = PlayerController;
+	}
 }
 
 const UCharacterEquipmentComponent* AZABaseCharacter::GetCharacterEquipmentComponent() const
@@ -66,6 +76,11 @@ const UCharacterAttributesComponent* AZABaseCharacter::GetCharacterAttributesCom
 UCharacterAttributesComponent* AZABaseCharacter::GetCharacterAttributesComponent_Mutable() const
 {
 	return CharacterAttributesComponent;
+}
+
+FGenericTeamId AZABaseCharacter::GetGenericTeamId() const
+{
+	return FGenericTeamId(static_cast<uint8>(Team));
 }
 
 void AZABaseCharacter::ChangeCrouchState()

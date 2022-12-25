@@ -3,6 +3,7 @@
 
 #include "AI/Characters/Turret.h"
 
+#include "AIController.h"
 #include "Components/Weapon/WeaponBarellComponent.h"
 
 ATurret::ATurret()
@@ -20,6 +21,17 @@ ATurret::ATurret()
 
 	WeaponBarellComponent = CreateDefaultSubobject<UWeaponBarellComponent>(TEXT("BarellLogic"));
 	WeaponBarellComponent->SetupAttachment(TurretBarellComponent);	
+}
+
+void ATurret::PossessedBy(AController* NewController)
+{
+	Super::PossessedBy(NewController);
+
+	const AAIController* AIController = Cast<AAIController>(NewController);
+	if(IsValid(AIController))
+	{
+		FGenericTeamId TeamId(static_cast<uint8>(Team));
+	}
 }
 
 void ATurret::Tick(float DeltaTime)

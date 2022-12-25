@@ -22,7 +22,8 @@ AZAPlayerCharacter::AZAPlayerCharacter(const FObjectInitializer& ObjectInitializ
 
 	GetCharacterMovement()->bOrientRotationToMovement = 1;
 	GetCharacterMovement()->RotationRate = FRotator(0.0f, 540.0f, 0.0f);
-	 
+
+	Team = ETeams::Player;
 }
 
 void AZAPlayerCharacter::MoveForward(float Value)

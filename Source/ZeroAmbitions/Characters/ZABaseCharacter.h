@@ -3,6 +3,8 @@
 #pragma once
 
 #include "CoreMinimal.h"
+#include "GenericTeamAgentInterface.h"
+#include "ZeroAmbitionsTypes.h"
 #include "GameFramework/Character.h"
 #include "ZABaseCharacter.generated.h"
 
@@ -14,7 +16,7 @@ class UCharacterEquipmentComponent;
  * 
  */
 UCLASS()
-class ZEROAMBITIONS_API AZABaseCharacter : public ACharacter
+class ZEROAMBITIONS_API AZABaseCharacter : public ACharacter, public IGenericTeamAgentInterface
 {
 	GENERATED_BODY()
 	
@@ -61,6 +63,10 @@ public:
 	UCharacterEquipmentComponent* GetCharacterEquipmentComponent_Mutable() const;
 	const UCharacterAttributesComponent* GetCharacterAttributesComponent() const;
 	UCharacterAttributesComponent* GetCharacterAttributesComponent_Mutable() const;
+
+	/** IGenericTeamAgentInterface*/
+	virtual FGenericTeamId GetGenericTeamId() const override;
+	/** ~IGenericTeamAgentInterface*/
 protected:
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "IK settings")
 	bool bIKEnabled = false;
@@ -119,8 +125,13 @@ protected:
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Character | Components")
 	class UCharacterEquipmentComponent* CharacterEquipmentComponent;
 
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Team")
+	ETeams Team = ETeams::Enemy;
+	
 	virtual void OnDeath();
 	virtual void OnStaminaOutOrMax(bool MaxOrOut);
+
+
 private:
 	
 	void EnableRagdoll();
