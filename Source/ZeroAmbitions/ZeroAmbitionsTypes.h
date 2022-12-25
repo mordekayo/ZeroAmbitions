@@ -1,7 +1,7 @@
 #pragma once
 
-#define ECC_InteractionVolume ECC_GameTraceChannel1
-#define ECC_Bullet ECC_GameTraceChannel2
+#define ECC_InteractionVolume ECC_GameTraceChannel2
+#define ECC_Bullet ECC_GameTraceChannel4
 
 const FName FXParamTraceEnd = FName("TraceEnd");
 
@@ -31,6 +31,7 @@ enum class EAmmunitionType	 : uint8
 	None,
 	Pistol,
 	Rifle,
+	ShotgunShells,
 	MAX UMETA(Hidden)
 };
 
@@ -40,5 +41,6 @@ enum class EEquipmentSlots : uint8
 	None,
 	SideArm,
 	PrimaryWeapon,
+	SecondaryWeapon,
 	MAX UMETA(Hidden)
 };

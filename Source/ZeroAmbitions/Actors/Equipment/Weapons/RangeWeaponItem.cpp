@@ -120,6 +120,11 @@ void ARangeWeaponItem::BeginPlay()
 	SetAmmo(MaxAmmo);
 }
 
+float ARangeWeaponItem::GetCurrentBulletSpreadAngle()
+{
+	return SpreadAngle;
+}
+
 void ARangeWeaponItem::MakeShot()
 {
 	checkf(GetOwner()->IsA<AZABaseCharacter>(), TEXT("ARangeWeaponItem::Fire() only character can be an owner of range weapon"));
@@ -144,15 +149,8 @@ void ARangeWeaponItem::MakeShot()
 	{
 		return;
 	}
-
-	FVector PlayerViewPoint;
-	FRotator PlayerViewRotation;
-
-	Controller->GetPlayerViewPoint(PlayerViewPoint, PlayerViewRotation);
-
-	FVector PlayerViewDirection = PlayerViewRotation.RotateVector(FVector::ForwardVector);
-
-	WeaponBarell->Shot(PlayerViewPoint, PlayerViewDirection, Controller);
+	
+	WeaponBarell->Shot(Controller, GetCurrentBulletSpreadAngle());
 	SetAmmo(Ammo - 1);
 }
 
