@@ -21,23 +21,20 @@ ARangeWeaponItem::ARangeWeaponItem()
 
 void ARangeWeaponItem::StartFire()
 {
-	if(bIsReloading)
+	if(bIsReloading && ReloadType == EReloadType::FullClip)
 	{
 		return;	
 	}
-	MakeShot();
-
-	if(WeaponFireMode == EWeaponFireMode::FullAuto)
-	{ 
-		GetWorld()->GetTimerManager().ClearTimer(ShotTimer);
-		GetWorld()->GetTimerManager().SetTimer(ShotTimer, this, &ARangeWeaponItem::MakeShot, GetShotTimerInterval(), true);
+	if(GetWorld()->GetTimerManager().IsTimerActive(ShotTimer))
+	{
+		return;
 	}
-
+	MakeShot();
 }
 
 void ARangeWeaponItem::StopFire()
 {
-	GetWorld()->GetTimerManager().ClearTimer(ShotTimer);
+	bIsFiring = false;
 }
 
 void ARangeWeaponItem::StartReload()
@@ -50,7 +47,10 @@ void ARangeWeaponItem::StartReload()
 	{
 		const float MontageDuration = CharacterOwner->PlayAnimMontage(CharacterReloadMontage);
 		PlayAnimMontage(WeaponReloadMontage);
-		GetWorld()->GetTimerManager().SetTimer(ReloadTimer, [this](){ EndReload(true); }, MontageDuration, false);
+		if(ReloadType == EReloadType::FullClip)
+		{
+			GetWorld()->GetTimerManager().SetTimer(ReloadTimer, [this](){ EndReload(true); }, MontageDuration, false);
+		}
 	}
 	else
 	{
@@ -58,7 +58,7 @@ void ARangeWeaponItem::StartReload()
 	}
 }
 
-void ARangeWeaponItem::EndReload(bool bIsSuccess, bool bJumpToEnd)
+void ARangeWeaponItem::EndReload(bool bIsSuccess)
 {
 	if(!bIsReloading)
 	{
@@ -73,7 +73,7 @@ void ARangeWeaponItem::EndReload(bool bIsSuccess, bool bJumpToEnd)
 		StopAnimMontage(WeaponReloadMontage, false);
 	}
 
-	if(bJumpToEnd)
+	if(ReloadType == EReloadType::BulletByBullet)
 	{
 		AZABaseCharacter* CharacterOwner = StaticCast<AZABaseCharacter*>(GetOwner());
 		UAnimInstance* CharacterAnimInstance = CharacterOwner->GetMesh()->GetAnimInstance();
@@ -169,11 +169,34 @@ void ARangeWeaponItem::MakeShot()
 	
 	WeaponBarell->Shot(Controller, GetCurrentBulletSpreadAngle());
 	SetAmmo(Ammo - 1);
+	
+	GetWorld()->GetTimerManager().SetTimer(ShotTimer, this, &ARangeWeaponItem::OnShotTimerElapsed, GetShotTimerInterval(), false);
 }
 
 float ARangeWeaponItem::GetShotTimerInterval()
 {
 	return 60.0f / RateOfFire;
+}
+
+void ARangeWeaponItem::OnShotTimerElapsed()
+{
+	if(!bIsFiring)
+	{
+		return;
+	}
+
+	switch (WeaponFireMode)
+	{
+		case EWeaponFireMode::Single:
+		{
+			StopFire();
+				break;
+		}
+		case EWeaponFireMode::FullAuto:
+			{
+				MakeShot();
+			}
+	}
 }
 
 float ARangeWeaponItem::PlayAnimMontage(UAnimMontage* AnimMontage)

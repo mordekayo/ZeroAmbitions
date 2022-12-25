@@ -141,7 +141,7 @@ void UCharacterEquipmentComponent::ReloadAmmoInCurrentWeapon(int32 NumberOfAmmo,
 {
 	const int32 CurrentAmmo = CurrentEquippedWeapon->GetAmmo();
 	const int32 AmmoToReload = CurrentEquippedWeapon->GetMaxAmmo() - CurrentEquippedWeapon->GetAmmo();
-	int32 ReloadedAmmo = FMath::Min(FMath::Min(GetAvailableAmmunitionForCurrentWeapon(), AmmoToReload), NumberOfAmmo);
+	int32 ReloadedAmmo = FMath::Min(GetAvailableAmmunitionForCurrentWeapon(), AmmoToReload);
 
 	if(NumberOfAmmo > 0)
 	{
@@ -156,7 +156,7 @@ void UCharacterEquipmentComponent::ReloadAmmoInCurrentWeapon(int32 NumberOfAmmo,
 		const bool bIsFullyReloaded = CurrentEquippedWeapon->GetAmmo() == CurrentEquippedWeapon->GetMaxAmmo();
 		if(GetAvailableAmmunitionForCurrentWeapon() - ReloadedAmmo == 0 || bIsFullyReloaded)
 		{
-			CurrentEquippedWeapon->EndReload(true, true);
+			CurrentEquippedWeapon->EndReload(true);
 		}
 	}
 }
