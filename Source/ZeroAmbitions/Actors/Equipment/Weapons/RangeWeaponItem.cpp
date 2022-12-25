@@ -58,7 +58,7 @@ void ARangeWeaponItem::StartReload()
 	}
 }
 
-void ARangeWeaponItem::EndReload(bool bIsSuccess)
+void ARangeWeaponItem::EndReload(bool bIsSuccess, bool bJumpToEnd)
 {
 	if(!bIsReloading)
 	{
@@ -72,6 +72,23 @@ void ARangeWeaponItem::EndReload(bool bIsSuccess)
 		CharacterOwner->StopAnimMontage(CharacterReloadMontage);
 		StopAnimMontage(WeaponReloadMontage, false);
 	}
+
+	if(bJumpToEnd)
+	{
+		AZABaseCharacter* CharacterOwner = StaticCast<AZABaseCharacter*>(GetOwner());
+		UAnimInstance* CharacterAnimInstance = CharacterOwner->GetMesh()->GetAnimInstance();
+		if (IsValid(CharacterAnimInstance))
+		{
+			CharacterAnimInstance->Montage_JumpToSection(SectionMontageReloadEnd, CharacterReloadMontage);
+		}
+		
+		UAnimInstance* WeaponAnimInstance = WeaponMesh->GetAnimInstance();
+		if (IsValid(WeaponAnimInstance))
+		{
+			WeaponAnimInstance->Montage_JumpToSection(SectionMontageReloadEnd, WeaponReloadMontage);
+		}
+	}
+	
 	bIsReloading = false;
 	GetWorld()->GetTimerManager().ClearTimer(ReloadTimer);
 	if(bIsSuccess && OnReloadComplete.IsBound())

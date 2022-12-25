@@ -5,6 +5,7 @@
 #include "Actors/Equipment/Weapons/RangeWeaponItem.h"
 #include "Characters/ZABaseCharacter.h"
 #include "ZeroAmbitionsTypes.h"
+#include "Math/UnitConversion.h"
 
 
 void UCharacterEquipmentComponent::ReloadCurrentWeapon()
@@ -133,12 +134,31 @@ bool UCharacterEquipmentComponent::IsEqupping() const
 
 void UCharacterEquipmentComponent::OnWeaponReloadComplete()
 {
+	ReloadAmmoInCurrentWeapon();
+}
+
+void UCharacterEquipmentComponent::ReloadAmmoInCurrentWeapon(int32 NumberOfAmmo, bool bCheckIfFull)
+{
 	const int32 CurrentAmmo = CurrentEquippedWeapon->GetAmmo();
 	const int32 AmmoToReload = CurrentEquippedWeapon->GetMaxAmmo() - CurrentEquippedWeapon->GetAmmo();
-	const int32 ReloadedAmmo = FMath::Min(GetAvailableAmmunitionForCurrentWeapon(), AmmoToReload);
+	int32 ReloadedAmmo = FMath::Min(FMath::Min(GetAvailableAmmunitionForCurrentWeapon(), AmmoToReload), NumberOfAmmo);
 
+	if(NumberOfAmmo > 0)
+	{
+		ReloadedAmmo = FMath::Min(ReloadedAmmo, NumberOfAmmo);
+	}
+	
 	AmmunitionArray[static_cast<uint32>(CurrentEquippedWeapon->GetAmmoType())] -= ReloadedAmmo;
 	CurrentEquippedWeapon->SetAmmo(ReloadedAmmo + CurrentAmmo);
+
+	if(bCheckIfFull)
+	{
+		const bool bIsFullyReloaded = CurrentEquippedWeapon->GetAmmo() == CurrentEquippedWeapon->GetMaxAmmo();
+		if(GetAvailableAmmunitionForCurrentWeapon() - ReloadedAmmo == 0 || bIsFullyReloaded)
+		{
+			CurrentEquippedWeapon->EndReload(true, true);
+		}
+	}
 }
 
 void UCharacterEquipmentComponent::CreateLoadout()

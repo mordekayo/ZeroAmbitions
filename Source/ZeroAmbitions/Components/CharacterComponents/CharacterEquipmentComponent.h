@@ -30,6 +30,7 @@ public:
 	FOnCurrentWeaponAmmoChanged OnCurrentWeaponAmmoChangedEvent;
 
 	void ReloadCurrentWeapon();
+	void ReloadAmmoInCurrentWeapon(int32 NumberOfAmmo = 0, bool bCheckIfFull = false);
 	void UnEquipCurrentItem();
 	void AttachCurrentItemToEquippedSocket() const;
 	void EquipItemInSlot(EEquipmentSlots Slot);

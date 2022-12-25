@@ -17,6 +17,8 @@ const FName CollisionProfilePawnInteractionVolume = FName("PawnInteractionVolume
 const FName DebugCategoryCharacterAttributes = FName("CharacterAttributes");
 const FName DebugCategoryRangeWeapon = FName("RangeWeapon");
 
+const FName SectionMontageReloadEnd = FName("ReloadEnd");
+
 UENUM(BlueprintType)
 enum class EEquipableItemType : uint8
 {
