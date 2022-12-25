@@ -36,12 +36,16 @@ void UWeaponBarellComponent::Shot(AController* Controller, float SpreadAngle)
 			AActor* HitActor = ShotResult.GetActor();
 			if (IsValid(HitActor))
 			{
+				FPointDamageEvent DamageEvent;
+				DamageEvent.HitInfo = ShotResult;
+				DamageEvent.ShotDirection = ShotDirection;
+				DamageEvent.DamageTypeClass = DamageTypeClass;
 				float DistanceDamageCoef = 1.0f;
 				if (IsValid(FalloffDiagram))
 				{
 					DistanceDamageCoef = FalloffDiagram->GetFloatValue((ShotEnd - MuzzleLocation).Size());
 				}
-				HitActor->TakeDamage(DamageAmount * DistanceDamageCoef, FDamageEvent{}, Controller, GetOwner());
+				HitActor->TakeDamage(DamageAmount * DistanceDamageCoef, DamageEvent, Controller, GetOwner());
 			}
 		}
 
