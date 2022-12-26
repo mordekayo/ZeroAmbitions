@@ -21,9 +21,10 @@ public:
 	UFUNCTION(BlueprintCallable)
 	float GetHealthPercent() const;
 
-	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Widget names")
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Widget names")
 	FName AmmoWidgetName;
-	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Widget names")
+	
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Widget names")
 	FName ItemsWidgetName;
 	
 };

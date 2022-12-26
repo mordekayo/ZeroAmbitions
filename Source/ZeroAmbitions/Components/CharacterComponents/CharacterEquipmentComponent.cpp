@@ -176,6 +176,24 @@ bool UCharacterEquipmentComponent::IsEqupping() const
 	return bIsEquipping;
 }
 
+void UCharacterEquipmentComponent::UpdateAmmoAndItemsAmount()
+{
+	if(OnCurrentWeaponAmmoChangedEvent.IsBound())
+	{
+		if(IsValid(CurrentEquippedWeapon))
+		{
+			OnCurrentWeaponAmmoChangedEvent.Broadcast( CurrentEquippedWeapon->GetAmmo(), GetAvailableAmmunitionForCurrentWeapon());
+		}
+	}
+	if(OnCurrentItemAmountChanged.IsBound())
+	{
+		if(IsValid(*ItemsLoadout.Find(EEquipmentSlots::PrimaryItemSlot)))
+		{
+			OnCurrentItemAmountChanged.Broadcast(ThrowableItemCount[ItemsLoadout[EEquipmentSlots::PrimaryItemSlot]]);
+		}
+	}
+}
+
 void UCharacterEquipmentComponent::OnWeaponReloadComplete()
 {
 	ReloadAmmoInCurrentWeapon();
@@ -226,6 +244,8 @@ void UCharacterEquipmentComponent::CreateLoadout()
 		Item->UnEquip();
 		ItemsArray[static_cast<uint32>(ItemPair.Key)] = Item;	
 	}
+
+	
 }
 
 void UCharacterEquipmentComponent::AutoEquip()

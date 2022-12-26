@@ -30,6 +30,7 @@ public:
 
 	AMeleeWeaponItem* GetCurrentMeleeWeapon() const;
 	bool IsEqupping() const;
+	void UpdateAmmoAndItemsAmount();
 
 	FOnCurrentWeaponAmmoChanged OnCurrentWeaponAmmoChangedEvent;
 	FOnCurrentItemAmountChanged OnCurrentItemAmountChanged;
@@ -59,7 +60,7 @@ protected:
 	TSet<EEquipmentSlots> IgnoreSlotsWhileSwitching;
 
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Loadout")
-	TMap<TSubclassOf<AThrowableItem>, int32> ThrowableItemCount;
+	TMap<TSubclassOf<AEquipableItem>, int32> ThrowableItemCount;
 	
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Loadout")
 	EEquipmentSlots AutoEquipItemInSlot = EEquipmentSlots::None;

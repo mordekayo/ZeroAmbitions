@@ -215,18 +215,18 @@ void AZAPlayerController::CreateAndInitizalizeWidgets()
 
 	if(CachedBaseCharacter.IsValid() && IsValid(PlayerHUDWidget))
 	{
+		UCharacterEquipmentComponent* CharacterEquipment = CachedBaseCharacter->GetCharacterEquipmentComponent_Mutable();
 		UAmmoWidget* AmmoWidget = PlayerHUDWidget->GetAmmoWidget();
 		if (IsValid(AmmoWidget))
 		{
-			UCharacterEquipmentComponent* CharacterEquipment = CachedBaseCharacter->GetCharacterEquipmentComponent_Mutable();
 			CharacterEquipment->OnCurrentWeaponAmmoChangedEvent.AddUFunction(AmmoWidget, FName("UpdateAmmoCount"));
 		}
 
 		UItemsWidget* ItemsWidget = PlayerHUDWidget->GetItemsWidget();
 		if (IsValid(ItemsWidget))
 		{
-			UCharacterEquipmentComponent* CharacterEquipment = CachedBaseCharacter->GetCharacterEquipmentComponent_Mutable();
 			CharacterEquipment->OnCurrentItemAmountChanged.AddUFunction(ItemsWidget, FName("UpdateItemsCount"));
 		}
+		CharacterEquipment->UpdateAmmoAndItemsAmount();
 	}
 }
