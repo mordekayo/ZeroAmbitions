@@ -46,6 +46,9 @@ public:
 	void NextItem();
 	void PreviousItem();
 
+	void PrimaryMeleeAttack();
+	void SecondaryMeleeAttack();
+
 	UFUNCTION(BlueprintCallable, BlueprintPure)
 	float GetIKLeftFootOffset() const { return IKLeftFootOffset;}
 

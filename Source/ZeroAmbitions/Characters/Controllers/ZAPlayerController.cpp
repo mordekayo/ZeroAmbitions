@@ -43,6 +43,10 @@ void AZAPlayerController::SetupInputComponent()
 	InputComponent->BindAction("Reload", EInputEvent::IE_Pressed, this, &AZAPlayerController::Reload);
 	InputComponent->BindAction("NextItem", EInputEvent::IE_Pressed, this, &AZAPlayerController::NextItem);
 	InputComponent->BindAction("PreviousItem", EInputEvent::IE_Pressed, this, &AZAPlayerController::PreviousItem);
+	InputComponent->BindAction("PrimaryMeleeAttack", EInputEvent::IE_Pressed, this, &AZAPlayerController::PrimaryMeleeAttack);
+	InputComponent->BindAction("SecondaryMeleeAttack", EInputEvent::IE_Pressed, this, &AZAPlayerController::SecondaryMeleeAttack);
+
+	
 }
 
 void AZAPlayerController::MoveForward(float Value)
@@ -169,6 +173,22 @@ void AZAPlayerController::PreviousItem()
 	if(CachedBaseCharacter.IsValid())
 	{
 		CachedBaseCharacter->PreviousItem();
+	}
+}
+
+void AZAPlayerController::PrimaryMeleeAttack()
+{
+	if(CachedBaseCharacter.IsValid())
+	{
+		CachedBaseCharacter->PrimaryMeleeAttack();
+	}
+}
+
+void AZAPlayerController::SecondaryMeleeAttack()
+{
+	if(CachedBaseCharacter.IsValid())
+	{
+		CachedBaseCharacter->SecondaryMeleeAttack();
 	}
 }
 

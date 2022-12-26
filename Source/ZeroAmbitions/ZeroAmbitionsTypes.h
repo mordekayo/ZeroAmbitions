@@ -19,6 +19,10 @@ const FName DebugCategoryRangeWeapon = FName("RangeWeapon");
 
 const FName SectionMontageReloadEnd = FName("ReloadEnd");
 
+
+const FName BB_CurrentTarget = FName("CurrentTarget");
+const FName BB_NextLocation = FName("NextLocation");
+
 UENUM(BlueprintType)
 enum class EEquipableItemType : uint8
 {
@@ -41,6 +45,7 @@ UENUM(BlueprintType)
 enum class EEquipmentSlots : uint8
 {
 	None,
+	MeleeWeapon,
 	SideArm,
 	PrimaryWeapon,
 	SecondaryWeapon,
@@ -52,4 +57,14 @@ enum class ETeams : uint8
 {
 	Player,
 	Enemy
+};
+
+
+UENUM(BlueprintType)
+enum class EMeleeAttackTypes : uint8
+{
+	None,
+	PrimaryAttack,
+	SecondaryAttack,
+	MAX UMETA(Hidden)
 };

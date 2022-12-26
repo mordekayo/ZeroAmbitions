@@ -48,6 +48,9 @@ private:
 
 	void NextItem();
 	void PreviousItem();
+
+	void PrimaryMeleeAttack();
+	void SecondaryMeleeAttack();
 	
 	TSoftObjectPtr<class AZABaseCharacter> CachedBaseCharacter;
 

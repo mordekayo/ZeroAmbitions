@@ -4,6 +4,7 @@
 #include "RangeWeaponItem.h"
 #include "Components/Weapon/WeaponBarellComponent.h"
 #include "ZeroAmbitionsTypes.h"
+#include "AI/Characters/ZAAIBaseCharacter.h"
 #include "Characters/ZABaseCharacter.h"
 
 ARangeWeaponItem::ARangeWeaponItem()
@@ -39,8 +40,11 @@ void ARangeWeaponItem::StopFire()
 
 void ARangeWeaponItem::StartReload()
 {
-	checkf(GetOwner()->IsA<AZABaseCharacter>(), TEXT("ARangeWeaponItem::StartReload() only character can be an owner of range weapon"));
-	AZABaseCharacter* CharacterOwner = StaticCast<AZABaseCharacter*>(GetOwner());
+	AZABaseCharacter* CharacterOwner = GetCharacterOwner();
+	if(!IsValid(CharacterOwner))
+	{
+		return;
+	}
 
 	bIsReloading = true;
 	if (IsValid(CharacterReloadMontage))
@@ -65,18 +69,20 @@ void ARangeWeaponItem::EndReload(bool bIsSuccess)
 		return;
 	}
 
+	AZABaseCharacter* CharacterOwner = GetCharacterOwner();
+	
 	if(!bIsSuccess)
 	{
-		checkf(GetOwner()->IsA<AZABaseCharacter>(), TEXT("ARangeWeaponItem::StartReload() only character can be an owner of range weapon"));
-		AZABaseCharacter* CharacterOwner = StaticCast<AZABaseCharacter*>(GetOwner());
-		CharacterOwner->StopAnimMontage(CharacterReloadMontage);
+		if(IsValid(CharacterOwner))
+		{
+			CharacterOwner->StopAnimMontage(CharacterReloadMontage);
+		}
 		StopAnimMontage(WeaponReloadMontage, false);
 	}
 
 	if(ReloadType == EReloadType::BulletByBullet)
 	{
-		AZABaseCharacter* CharacterOwner = StaticCast<AZABaseCharacter*>(GetOwner());
-		UAnimInstance* CharacterAnimInstance = CharacterOwner->GetMesh()->GetAnimInstance();
+		UAnimInstance* CharacterAnimInstance = IsValid(CharacterOwner) ? CharacterOwner->GetMesh()->GetAnimInstance() : nullptr;
 		if (IsValid(CharacterAnimInstance))
 		{
 			CharacterAnimInstance->Montage_JumpToSection(SectionMontageReloadEnd, CharacterReloadMontage);
@@ -144,8 +150,11 @@ float ARangeWeaponItem::GetCurrentBulletSpreadAngle()
 
 void ARangeWeaponItem::MakeShot()
 {
-	checkf(GetOwner()->IsA<AZABaseCharacter>(), TEXT("ARangeWeaponItem::Fire() only character can be an owner of range weapon"));
-	AZABaseCharacter* CharacterOwner = StaticCast<AZABaseCharacter*>(GetOwner());
+	AZABaseCharacter* CharacterOwner = GetCharacterOwner();
+	if(!IsValid(CharacterOwner))
+	{
+		return;
+	}
 
 	CharacterOwner->PlayAnimMontage(CharacterFireMontage);
 	PlayAnimMontage(WeaponFireMontage);

@@ -7,6 +7,7 @@
 #include "ZeroAmbitionsTypes.h"
 #include "EquipableItem.generated.h"
 
+class AZABaseCharacter;
 class UAnimMontage;
 UCLASS()
 class ZEROAMBITIONS_API AEquipableItem : public AActor
@@ -20,6 +21,8 @@ public:
 	FName GetEquippedSocketName() const;
 
 	UAnimMontage* GetCharacterEquipAnimMontage() const;
+
+	virtual void SetOwner(AActor* NewOwner) override;
 protected:
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Equipable item")
 	EEquipableItemType ItemType = EEquipableItemType::None;
@@ -33,4 +36,7 @@ protected:
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Equipable item")
 	FName EquippedSocketName = NAME_None;
 
+	AZABaseCharacter* GetCharacterOwner() const;
+private:
+	TWeakObjectPtr<AZABaseCharacter> CachedCharacterOwner;
 };

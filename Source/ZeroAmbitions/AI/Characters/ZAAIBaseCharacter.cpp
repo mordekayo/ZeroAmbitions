@@ -14,3 +14,8 @@ UAIPatrollingComponent* AZAAIBaseCharacter::GetPatrollingComponent() const
 {
 	return AIPatrollingComponent;
 }
+
+UBehaviorTree* AZAAIBaseCharacter::GetBehaviorTree() const
+{
+	return BehaviorTree;
+}

@@ -10,6 +10,7 @@
 #include "Controllers/ZAPlayerController.h"
 #include "GameFramework/CharacterMovementComponent.h"
 #include "ZeroAmbitionsTypes.h"
+#include "Actors/Equipment/Weapons/MeleeWeaponItem.h"
 #include "Kismet/KismetSystemLibrary.h"
 #include "Actors/Equipment/Weapons/RangeWeaponItem.h"
 #include "Components/CapsuleComponent.h"
@@ -228,6 +229,24 @@ void AZABaseCharacter::NextItem()
 void AZABaseCharacter::PreviousItem()
 {
 	CharacterEquipmentComponent->EquipPreviousItem();
+}
+
+void AZABaseCharacter::PrimaryMeleeAttack()
+{
+	AMeleeWeaponItem* CurrentMeleeWeapon = CharacterEquipmentComponent->GetCurrentMeleeWeapon();
+	if (IsValid(CurrentMeleeWeapon))
+	{
+		CurrentMeleeWeapon->StartAttack(EMeleeAttackTypes::PrimaryAttack);
+	}
+}
+
+void AZABaseCharacter::SecondaryMeleeAttack()
+{
+	AMeleeWeaponItem* CurrentMeleeWeapon = CharacterEquipmentComponent->GetCurrentMeleeWeapon();
+	if (IsValid(CurrentMeleeWeapon))
+	{
+		CurrentMeleeWeapon->StartAttack(EMeleeAttackTypes::SecondaryAttack);
+	}
 }
 
 bool AZABaseCharacter::CanJumpInternal_Implementation() const

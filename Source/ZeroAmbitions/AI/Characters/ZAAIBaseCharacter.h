@@ -10,6 +10,7 @@
  * 
  */
 class UAIPatrollingComponent;
+class UBehaviorTree;
 UCLASS(Blueprintable)
 class ZEROAMBITIONS_API AZAAIBaseCharacter : public AZABaseCharacter
 {
@@ -19,7 +20,13 @@ public:
 	AZAAIBaseCharacter(const FObjectInitializer& ObjectInitializer);
 
 	UAIPatrollingComponent* GetPatrollingComponent() const;
+
+	UBehaviorTree* GetBehaviorTree() const;
 protected:
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Components")
 	UAIPatrollingComponent* AIPatrollingComponent;
+
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "AI")
+	UBehaviorTree* BehaviorTree;
+	
 };

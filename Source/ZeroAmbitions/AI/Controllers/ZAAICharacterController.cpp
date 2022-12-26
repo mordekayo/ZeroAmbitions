@@ -3,6 +3,7 @@
 
 #include "AI/Controllers/ZAAICharacterController.h"
 #include "AI/Characters/ZAAIBaseCharacter.h"
+#include "BehaviorTree/BlackboardComponent.h"
 #include "Components/CharacterComponents/AIPatrollingComponent.h"
 #include "Perception/AISense_Sight.h"
 
@@ -14,10 +15,11 @@ void AZAAICharacterController::SetPawn(APawn* InPawn)
 	{
 		checkf(InPawn->IsA<AZAAIBaseCharacter>(), TEXT("AZAAICharacterController::SePawn ZAAICharacterController can posses only AZAAIBaseCharacters"));
 		CachedAICharacter = StaticCast<AZAAIBaseCharacter*>(InPawn);
+		RunBehaviorTree(CachedAICharacter->GetBehaviorTree());
 	}
 	else
 	{
-		
+		CachedAICharacter = nullptr;
 	}
 }
 
@@ -51,8 +53,12 @@ void AZAAICharacterController::BeginPlay()
 	UAIPatrollingComponent* PatrollingComponent = CachedAICharacter->GetPatrollingComponent();
 	if(PatrollingComponent->CanPatrol())
 	{
-		FVector ClosestWayPoint = PatrollingComponent->SelectClosestWaypoint();
-		MoveToLocation(ClosestWayPoint);
+		const FVector ClosestWayPoint = PatrollingComponent->SelectClosestWaypoint();
+		if(IsValid(Blackboard))
+		{
+			Blackboard->SetValueAsVector(BB_NextLocation, ClosestWayPoint);
+			Blackboard->SetValueAsObject(BB_CurrentTarget, nullptr);
+		}
 		bIsPatrolling = true;
 	}
 }
@@ -63,18 +69,19 @@ void AZAAICharacterController::TryMoveToNextTarget()
 	AActor* ClosestActor = GetClosestSensedActor(UAISense_Sight::StaticClass());
 	if(IsValid(ClosestActor))
 	{
-		if(!IsTargetReached(ClosestActor->GetActorLocation()))
+		if(IsValid(Blackboard))
 		{
-			MoveToActor(ClosestActor);	
+			Blackboard->SetValueAsObject(BB_CurrentTarget, ClosestActor);
 		}
 		bIsPatrolling = false;
 	}
 	else if(PatrollingComponent->CanPatrol())
 	{
-		FVector WayPoint = bIsPatrolling ? PatrollingComponent->SelectNextWaypoint() : PatrollingComponent->SelectClosestWaypoint();
-		if(!IsTargetReached(WayPoint))
+		if(IsValid(Blackboard))
 		{
-			MoveToLocation(WayPoint);
+			FVector WayPoint = bIsPatrolling ? PatrollingComponent->SelectNextWaypoint() : PatrollingComponent->SelectClosestWaypoint();
+			Blackboard->SetValueAsVector(BB_NextLocation, WayPoint);
+			Blackboard->SetValueAsObject(BB_CurrentTarget, nullptr);
 		}
 		bIsPatrolling = true;
 	}

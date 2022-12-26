@@ -5,6 +5,7 @@
 #include "Actors/Equipment/Weapons/RangeWeaponItem.h"
 #include "Characters/ZABaseCharacter.h"
 #include "ZeroAmbitionsTypes.h"
+#include "Actors/Equipment/Weapons/MeleeWeaponItem.h"
 #include "Math/UnitConversion.h"
 
 
@@ -52,7 +53,8 @@ void UCharacterEquipmentComponent::EquipItemInSlot(EEquipmentSlots Slot)
 	
 	CurrentEquippedItem = ItemsArray[static_cast<uint32>(Slot)];
 	CurrentEquippedWeapon = Cast<ARangeWeaponItem>(CurrentEquippedItem);
-
+	CurrentMeleeWeaponItem = Cast<AMeleeWeaponItem>(CurrentEquippedItem);
+	
 	if(IsValid(CurrentEquippedItem))
 	{
 		UAnimMontage* EquipMontage = CurrentEquippedItem->GetCharacterEquipAnimMontage();
@@ -110,6 +112,8 @@ void UCharacterEquipmentComponent::BeginPlay()
 	checkf(GetOwner()->IsA<AZABaseCharacter>(), TEXT("UCharacterEquipmentComponent::BeginPlay() UCharacterEquipmentComponent can be used only with base character"));
 	CachedBaseCharacter = StaticCast<AZABaseCharacter*>(GetOwner());
 	CreateLoadout();
+	
+	AutoEquip();
 }
 
 EEquipableItemType UCharacterEquipmentComponent::GetCurrentEquippedItemType() const
@@ -125,6 +129,11 @@ EEquipableItemType UCharacterEquipmentComponent::GetCurrentEquippedItemType() co
 ARangeWeaponItem* UCharacterEquipmentComponent::GetCurrentRangeWeapon() const
 {
 	return CurrentEquippedWeapon;
+}
+
+AMeleeWeaponItem* UCharacterEquipmentComponent::GetCurrentMeleeWeapon() const
+{
+	return CurrentMeleeWeaponItem;
 }
 
 bool UCharacterEquipmentComponent::IsEqupping() const
@@ -181,13 +190,14 @@ void UCharacterEquipmentComponent::CreateLoadout()
 		Item->SetOwner(CachedBaseCharacter.Get());
 		ItemsArray[static_cast<uint32>(ItemPair.Key)] = Item;	
 	}
-	
-	// CurrentEquippedWeapon = GetWorld()->SpawnActor<ARangeWeaponItem>(SideArmClass);
-	// CurrentEquippedWeapon->AttachToComponent(CachedBaseCharacter->GetMesh(), FAttachmentTransformRules::KeepRelativeTransform, SocketCharacterWeapon);
-	// CurrentEquippedWeapon->SetOwner(CachedBaseCharacter.Get());
-	// CurrentEquippedWeapon->OnAmmoChanged.AddUFunction(this, FName("OnCurrentWeaponAmmoChanged"));
-	// CurrentEquippedWeapon->OnReloadComplete.AddUFunction(this, FName("OnWeaponReloadComplete"));
-	// OnCurrentWeaponAmmoChanged(CurrentEquippedWeapon->GetAmmo());
+}
+
+void UCharacterEquipmentComponent::AutoEquip()
+{
+	if(AutoEquipItemInSlot != EEquipmentSlots::None)
+	{
+		EquipItemInSlot(AutoEquipItemInSlot);
+	}
 }
 
 void UCharacterEquipmentComponent::EquipAnimationFinished()
