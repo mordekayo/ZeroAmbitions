@@ -3,7 +3,7 @@
 #pragma once
 
 #include "CoreMinimal.h"
-#include "AIController.h"
+#include "ZAAIController.h"
 #include "AITurretController.generated.h"
 
 /**
@@ -12,13 +12,11 @@
 
 class ATurret;
 UCLASS()
-class ZEROAMBITIONS_API AAITurretController : public AAIController
+class ZEROAMBITIONS_API AAITurretController : public AZAAIController
 {
 	GENERATED_BODY()
 	
 	public:
-	AAITurretController();
-
 	virtual void SetPawn(APawn* InPawn) override;
 
 	virtual void ActorsPerceptionUpdated(const TArray<AActor*>& UpdatedActors) override;

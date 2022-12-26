@@ -1,6 +1,6 @@
-C:\Users\Руслан\AppData\Local\Temp\UnrealLink\Loviqok\HostProject\Plugins\RiderLink\Intermediate\Build\Win64\UnrealEditor\Development\RiderBlueprint\Module.RiderBlueprint.cpp
+C:\ITMO\ZeroAmbitions\Plugins\Developer\RiderLink\HostProject\Plugins\RiderLink\Intermediate\Build\Win64\UnrealEditor\Development\RiderBlueprint\Module.RiderBlueprint.cpp
 /I .
-/I C:\Users\Руслан\AppData\Local\Temp\UnrealLink\Loviqok\HostProject\Plugins\RiderLink\Source\RiderBlueprint\Private
+/I C:\ITMO\ZeroAmbitions\Plugins\Developer\RiderLink\HostProject\Plugins\RiderLink\Source\RiderBlueprint\Private
 /I Runtime
 /I Runtime\TraceLog\Public
 /I Runtime\Core\Public
@@ -14,25 +14,25 @@ C:\Users\Руслан\AppData\Local\Temp\UnrealLink\Loviqok\HostProject\Plugins\
 /I Runtime\ApplicationCore\Public
 /I Runtime\RHI\Public
 /I Runtime\Json\Public
-/I C:\Users\Руслан\AppData\Local\Temp\UnrealLink\Loviqok\HostProject\Plugins\RiderLink\Source
-/I C:\Users\Руслан\AppData\Local\Temp\UnrealLink\Loviqok\HostProject\Plugins\RiderLink\Source\RiderLink\Public\Model\Library
-/I C:\Users\Руслан\AppData\Local\Temp\UnrealLink\Loviqok\HostProject\Plugins\RiderLink\Source\RiderLink\Public\Model\RdEditorProtocol
-/I C:\Users\Руслан\AppData\Local\Temp\UnrealLink\Loviqok\HostProject\Plugins\RiderLink\Source\RiderLink\Public
-/I C:\Users\Руслан\AppData\Local\Temp\UnrealLink\Loviqok\HostProject\Plugins\RiderLink\Source\RD\src
-/I C:\Users\Руслан\AppData\Local\Temp\UnrealLink\Loviqok\HostProject\Plugins\RiderLink\Source\RD\src\rd_core_cpp
-/I C:\Users\Руслан\AppData\Local\Temp\UnrealLink\Loviqok\HostProject\Plugins\RiderLink\Source\RD\src\rd_core_cpp\src\main
-/I C:\Users\Руслан\AppData\Local\Temp\UnrealLink\Loviqok\HostProject\Plugins\RiderLink\Source\RD\src\rd_framework_cpp
-/I C:\Users\Руслан\AppData\Local\Temp\UnrealLink\Loviqok\HostProject\Plugins\RiderLink\Source\RD\src\rd_framework_cpp\src\main
-/I C:\Users\Руслан\AppData\Local\Temp\UnrealLink\Loviqok\HostProject\Plugins\RiderLink\Source\RD\src\rd_framework_cpp\src\main\util
-/I C:\Users\Руслан\AppData\Local\Temp\UnrealLink\Loviqok\HostProject\Plugins\RiderLink\Source\RD\src\rd_gen_cpp\src
-/I C:\Users\Руслан\AppData\Local\Temp\UnrealLink\Loviqok\HostProject\Plugins\RiderLink\Source\RD\thirdparty
-/I C:\Users\Руслан\AppData\Local\Temp\UnrealLink\Loviqok\HostProject\Plugins\RiderLink\Source\RD\thirdparty\ordered-map\include
-/I C:\Users\Руслан\AppData\Local\Temp\UnrealLink\Loviqok\HostProject\Plugins\RiderLink\Source\RD\thirdparty\optional\tl
-/I C:\Users\Руслан\AppData\Local\Temp\UnrealLink\Loviqok\HostProject\Plugins\RiderLink\Source\RD\thirdparty\variant\include
-/I C:\Users\Руслан\AppData\Local\Temp\UnrealLink\Loviqok\HostProject\Plugins\RiderLink\Source\RD\thirdparty\string-view-lite\include
-/I C:\Users\Руслан\AppData\Local\Temp\UnrealLink\Loviqok\HostProject\Plugins\RiderLink\Source\RD\thirdparty\spdlog\include
-/I C:\Users\Руслан\AppData\Local\Temp\UnrealLink\Loviqok\HostProject\Plugins\RiderLink\Source\RD\thirdparty\clsocket\src
-/I C:\Users\Руслан\AppData\Local\Temp\UnrealLink\Loviqok\HostProject\Plugins\RiderLink\Source\RD\thirdparty\CTPL\include
+/I C:\ITMO\ZeroAmbitions\Plugins\Developer\RiderLink\HostProject\Plugins\RiderLink\Source
+/I C:\ITMO\ZeroAmbitions\Plugins\Developer\RiderLink\HostProject\Plugins\RiderLink\Source\RiderLink\Public\Model\Library
+/I C:\ITMO\ZeroAmbitions\Plugins\Developer\RiderLink\HostProject\Plugins\RiderLink\Source\RiderLink\Public\Model\RdEditorProtocol
+/I C:\ITMO\ZeroAmbitions\Plugins\Developer\RiderLink\HostProject\Plugins\RiderLink\Source\RiderLink\Public
+/I C:\ITMO\ZeroAmbitions\Plugins\Developer\RiderLink\HostProject\Plugins\RiderLink\Source\RD\src
+/I C:\ITMO\ZeroAmbitions\Plugins\Developer\RiderLink\HostProject\Plugins\RiderLink\Source\RD\src\rd_core_cpp
+/I C:\ITMO\ZeroAmbitions\Plugins\Developer\RiderLink\HostProject\Plugins\RiderLink\Source\RD\src\rd_core_cpp\src\main
+/I C:\ITMO\ZeroAmbitions\Plugins\Developer\RiderLink\HostProject\Plugins\RiderLink\Source\RD\src\rd_framework_cpp
+/I C:\ITMO\ZeroAmbitions\Plugins\Developer\RiderLink\HostProject\Plugins\RiderLink\Source\RD\src\rd_framework_cpp\src\main
+/I C:\ITMO\ZeroAmbitions\Plugins\Developer\RiderLink\HostProject\Plugins\RiderLink\Source\RD\src\rd_framework_cpp\src\main\util
+/I C:\ITMO\ZeroAmbitions\Plugins\Developer\RiderLink\HostProject\Plugins\RiderLink\Source\RD\src\rd_gen_cpp\src
+/I C:\ITMO\ZeroAmbitions\Plugins\Developer\RiderLink\HostProject\Plugins\RiderLink\Source\RD\thirdparty
+/I C:\ITMO\ZeroAmbitions\Plugins\Developer\RiderLink\HostProject\Plugins\RiderLink\Source\RD\thirdparty\ordered-map\include
+/I C:\ITMO\ZeroAmbitions\Plugins\Developer\RiderLink\HostProject\Plugins\RiderLink\Source\RD\thirdparty\optional\tl
+/I C:\ITMO\ZeroAmbitions\Plugins\Developer\RiderLink\HostProject\Plugins\RiderLink\Source\RD\thirdparty\variant\include
+/I C:\ITMO\ZeroAmbitions\Plugins\Developer\RiderLink\HostProject\Plugins\RiderLink\Source\RD\thirdparty\string-view-lite\include
+/I C:\ITMO\ZeroAmbitions\Plugins\Developer\RiderLink\HostProject\Plugins\RiderLink\Source\RD\thirdparty\spdlog\include
+/I C:\ITMO\ZeroAmbitions\Plugins\Developer\RiderLink\HostProject\Plugins\RiderLink\Source\RD\thirdparty\clsocket\src
+/I C:\ITMO\ZeroAmbitions\Plugins\Developer\RiderLink\HostProject\Plugins\RiderLink\Source\RD\thirdparty\CTPL\include
 /I ..\Intermediate\Build\Win64\UnrealEditor\Inc\Slate
 /I Runtime\Slate\Public
 /I Runtime\ImageWrapper\Public
@@ -271,7 +271,7 @@ C:\Users\Руслан\AppData\Local\Temp\UnrealLink\Loviqok\HostProject\Plugins\
 /I ..\Intermediate\Build\Win64\UnrealEditor\Inc\AIModule
 /I Runtime\AIModule\Public
 /I Runtime\AIModule\Classes
-/I C:\Users\Руслан\AppData\Local\Temp\UnrealLink\Loviqok\HostProject\Plugins\RiderLink\Source\RiderBlueprint\Public
+/I C:\ITMO\ZeroAmbitions\Plugins\Developer\RiderLink\HostProject\Plugins\RiderLink\Source\RiderBlueprint\Public
 /I ThirdParty\mimalloc\include
 /I ThirdParty\LibTiff\Source\Win64
 /I ThirdParty\LibTiff\Source
@@ -292,9 +292,9 @@ C:\Users\Руслан\AppData\Local\Temp\UnrealLink\Loviqok\HostProject\Plugins\
 /I "C:\Program Files (x86)\Windows Kits\10\include\10.0.20348.0\shared"
 /I "C:\Program Files (x86)\Windows Kits\10\include\10.0.20348.0\um"
 /I "C:\Program Files (x86)\Windows Kits\10\include\10.0.20348.0\winrt"
-/FI"C:\Users\Руслан\AppData\Local\Temp\UnrealLink\Loviqok\HostProject\Plugins\RiderLink\Intermediate\Build\Win64\UnrealEditor\Development\RiderBlueprint\Definitions.h"
-/Fo"C:\Users\Руслан\AppData\Local\Temp\UnrealLink\Loviqok\HostProject\Plugins\RiderLink\Intermediate\Build\Win64\UnrealEditor\Development\RiderBlueprint\Module.RiderBlueprint.cpp.obj"
-/sourceDependencies C:\Users\Руслан\AppData\Local\Temp\UnrealLink\Loviqok\HostProject\Plugins\RiderLink\Intermediate\Build\Win64\UnrealEditor\Development\RiderBlueprint\Module.RiderBlueprint.cpp.json
+/FI"C:\ITMO\ZeroAmbitions\Plugins\Developer\RiderLink\HostProject\Plugins\RiderLink\Intermediate\Build\Win64\UnrealEditor\Development\RiderBlueprint\Definitions.h"
+/Fo"C:\ITMO\ZeroAmbitions\Plugins\Developer\RiderLink\HostProject\Plugins\RiderLink\Intermediate\Build\Win64\UnrealEditor\Development\RiderBlueprint\Module.RiderBlueprint.cpp.obj"
+/sourceDependencies C:\ITMO\ZeroAmbitions\Plugins\Developer\RiderLink\HostProject\Plugins\RiderLink\Intermediate\Build\Win64\UnrealEditor\Development\RiderBlueprint\Module.RiderBlueprint.cpp.json
 /Zc:inline
 /nologo
 /Oi

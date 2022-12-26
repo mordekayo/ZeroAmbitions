@@ -1,11 +1,11 @@
 {
     "Version": "1.1",
     "Data": {
-        "Source": "c:\\itmo\\zeroambitions\\plugins\\developer\\riderlink\\hostproject\\plugins\\riderlink\\source\\rd\\src\\rd_gen_cpp\\src\\rdtextbuffer.cpp",
+        "Source": "c:\\projects\\zeroambitions\\plugins\\developer\\riderlink\\hostproject\\plugins\\riderlink\\source\\rd\\src\\rd_gen_cpp\\src\\rdtextbuffer.cpp",
         "ProvidedModule": "",
         "Includes": [
-            "c:\\itmo\\zeroambitions\\plugins\\developer\\riderlink\\hostproject\\plugins\\riderlink\\intermediate\\build\\win64\\unrealeditor\\development\\rd\\definitions.h",
-            "c:\\itmo\\zeroambitions\\plugins\\developer\\riderlink\\hostproject\\plugins\\riderlink\\source\\rd\\src\\rd_gen_cpp\\src\\rdtextbuffer.h"
+            "c:\\projects\\zeroambitions\\plugins\\developer\\riderlink\\hostproject\\plugins\\riderlink\\intermediate\\build\\win64\\unrealeditor\\development\\rd\\definitions.h",
+            "c:\\projects\\zeroambitions\\plugins\\developer\\riderlink\\hostproject\\plugins\\riderlink\\source\\rd\\src\\rd_gen_cpp\\src\\rdtextbuffer.h"
         ],
         "ImportedModules": [],
         "ImportedHeaderUnits": []
