@@ -46,6 +46,8 @@ public:
 	void NextItem();
 	void PreviousItem();
 
+	void EquipPrimaryItem();
+
 	void PrimaryMeleeAttack();
 	void SecondaryMeleeAttack();
 

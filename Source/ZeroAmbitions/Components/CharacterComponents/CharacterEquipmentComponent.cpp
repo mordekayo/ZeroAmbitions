@@ -5,6 +5,7 @@
 #include "Actors/Equipment/Weapons/RangeWeaponItem.h"
 #include "Characters/ZABaseCharacter.h"
 #include "ZeroAmbitionsTypes.h"
+#include "Actors/Equipment/Throwables/ThrowableItem.h"
 #include "Actors/Equipment/Weapons/MeleeWeaponItem.h"
 #include "Math/UnitConversion.h"
 
@@ -22,6 +23,7 @@ void UCharacterEquipmentComponent::ReloadCurrentWeapon()
 
 void UCharacterEquipmentComponent::UnEquipCurrentItem()
 {
+	
 	if(IsValid(CurrentEquippedItem))
 	{
 		CurrentEquippedItem->AttachToComponent(CachedBaseCharacter->GetMesh(), FAttachmentTransformRules::KeepRelativeTransform, CurrentEquippedItem->GetUnEquippedSocketName());
@@ -33,7 +35,7 @@ void UCharacterEquipmentComponent::UnEquipCurrentItem()
 		CurrentEquippedWeapon->OnAmmoChanged.Remove(OnCurrentWeaponAmmoChangedHandle);
 		CurrentEquippedWeapon->OnReloadComplete.Remove(OnCurrentWeaponReloadedHandle);
 	}
-
+	PreviousEquippedSlot = CurrentEquippedSlot;
 	CurrentEquippedSlot = EEquipmentSlots::None;
 }
 
@@ -44,6 +46,12 @@ void UCharacterEquipmentComponent::AttachCurrentItemToEquippedSocket() const
 
 void UCharacterEquipmentComponent::EquipItemInSlot(EEquipmentSlots Slot)
 {
+
+	if(!IsValid(ItemsArray[static_cast<uint32>(Slot)]))
+	{
+		return;
+	}
+	
 	if(bIsEquipping)
 	{
 		return;
@@ -53,6 +61,7 @@ void UCharacterEquipmentComponent::EquipItemInSlot(EEquipmentSlots Slot)
 	
 	CurrentEquippedItem = ItemsArray[static_cast<uint32>(Slot)];
 	CurrentEquippedWeapon = Cast<ARangeWeaponItem>(CurrentEquippedItem);
+	CurrentThrowableItem = Cast<AThrowableItem>(CurrentEquippedItem);
 	CurrentMeleeWeaponItem = Cast<AMeleeWeaponItem>(CurrentEquippedItem);
 	
 	if(IsValid(CurrentEquippedItem))
@@ -82,7 +91,9 @@ void UCharacterEquipmentComponent::EquipNextItem()
 {
 	const uint32 CurrentSlotIndex = static_cast<uint32>(CurrentEquippedSlot);
 	uint32 NextSlotIndex = NextItemArraySlotIndex(CurrentSlotIndex);
-	while(CurrentSlotIndex !=  NextSlotIndex && !IsValid(ItemsArray[NextSlotIndex]))
+	while(CurrentSlotIndex !=  NextSlotIndex &&
+		IgnoreSlotsWhileSwitching.Contains(static_cast<EEquipmentSlots>(NextSlotIndex)) &&
+		!IsValid(ItemsArray[NextSlotIndex]))
 	{
 		NextSlotIndex = NextItemArraySlotIndex(NextSlotIndex);
 	}
@@ -96,13 +107,25 @@ void UCharacterEquipmentComponent::EquipPreviousItem()
 {
 	const uint32 CurrentSlotIndex = static_cast<uint32>(CurrentEquippedSlot);
 	uint32 PreviousSlotIndex = PreviousItemArraySlotIndex(CurrentSlotIndex);
-	while(CurrentSlotIndex != PreviousSlotIndex && !IsValid(ItemsArray[PreviousSlotIndex]))
+	while(CurrentSlotIndex != PreviousSlotIndex &&
+		IgnoreSlotsWhileSwitching.Contains(static_cast<EEquipmentSlots>(PreviousSlotIndex)) &&
+		!IsValid(ItemsArray[PreviousSlotIndex]))
 	{
 		PreviousSlotIndex = PreviousItemArraySlotIndex(PreviousSlotIndex);
 	}
 	if (CurrentSlotIndex != PreviousSlotIndex)
 	{
 		EquipItemInSlot(static_cast<EEquipmentSlots>(PreviousSlotIndex));
+	}
+}
+
+void UCharacterEquipmentComponent::LaunchCurrentThrowableItem()
+{
+	if(CurrentThrowableItem != nullptr)
+	{
+		CurrentThrowableItem->Throw();
+		bIsEquipping = false;
+		EquipItemInSlot(PreviousEquippedSlot);
 	}
 }
 

@@ -231,6 +231,11 @@ void AZABaseCharacter::PreviousItem()
 	CharacterEquipmentComponent->EquipPreviousItem();
 }
 
+void AZABaseCharacter::EquipPrimaryItem()
+{
+	CharacterEquipmentComponent->EquipItemInSlot(EEquipmentSlots::PrimaryItemSlot);
+}
+
 void AZABaseCharacter::PrimaryMeleeAttack()
 {
 	AMeleeWeaponItem* CurrentMeleeWeapon = CharacterEquipmentComponent->GetCurrentMeleeWeapon();

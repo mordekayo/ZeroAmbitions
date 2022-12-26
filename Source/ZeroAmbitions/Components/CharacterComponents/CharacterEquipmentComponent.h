@@ -9,6 +9,7 @@
 #include "CharacterEquipmentComponent.generated.h"
 
 class AMeleeWeaponItem;
+class AThrowableItem;
 typedef TArray<AEquipableItem*, TInlineAllocator<static_cast<uint32>(EEquipmentSlots::MAX)>> TItemsArray;
 typedef TArray<int32, TInlineAllocator<static_cast<uint32>(EAmmunitionType::MAX)>> TAmmunitionArray;
 
@@ -40,8 +41,9 @@ public:
 	void EquipNextItem();
 	void EquipPreviousItem();
 
-	
+	void LaunchCurrentThrowableItem();
 protected:
+	
 	virtual void BeginPlay() override;
 
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Loadout")
@@ -50,8 +52,12 @@ protected:
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Loadout")
 	TMap<EEquipmentSlots, TSubclassOf<class AEquipableItem>> ItemsLoadout;
 
+	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Loadout")
+	TSet<EEquipmentSlots> IgnoreSlotsWhileSwitching;
+	
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Loadout")
 	EEquipmentSlots AutoEquipItemInSlot = EEquipmentSlots::None;
+	
 private:
 	TAmmunitionArray AmmunitionArray;
 	TItemsArray ItemsArray;
@@ -73,10 +79,12 @@ private:
 
 	FDelegateHandle OnCurrentWeaponAmmoChangedHandle;
 	FDelegateHandle OnCurrentWeaponReloadedHandle;
-	
+
+	EEquipmentSlots PreviousEquippedSlot;
 	EEquipmentSlots CurrentEquippedSlot;
 	AEquipableItem* CurrentEquippedItem;
 	ARangeWeaponItem* CurrentEquippedWeapon;
+	AThrowableItem* CurrentThrowableItem;
 	AMeleeWeaponItem* CurrentMeleeWeaponItem;
 	TWeakObjectPtr<class AZABaseCharacter> CachedBaseCharacter;
 

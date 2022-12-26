@@ -29,6 +29,7 @@ enum class EEquipableItemType : uint8
 	None,
 	Pistol,
 	Rifle,
+	Throwable,
 	Melee
 };
 
@@ -50,6 +51,7 @@ enum class EEquipmentSlots : uint8
 	SideArm,
 	PrimaryWeapon,
 	SecondaryWeapon,
+	PrimaryItemSlot,
 	MAX UMETA(Hidden)
 };
 
