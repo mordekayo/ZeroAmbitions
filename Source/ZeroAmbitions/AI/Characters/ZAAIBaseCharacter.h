@@ -9,9 +9,17 @@
 /**
  * 
  */
+class UAIPatrollingComponent;
 UCLASS(Blueprintable)
 class ZEROAMBITIONS_API AZAAIBaseCharacter : public AZABaseCharacter
 {
 	GENERATED_BODY()
-	
+
+public:
+	AZAAIBaseCharacter(const FObjectInitializer& ObjectInitializer);
+
+	UAIPatrollingComponent* GetPatrollingComponent() const;
+protected:
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Components")
+	UAIPatrollingComponent* AIPatrollingComponent;
 };
