@@ -50,7 +50,7 @@ protected:
 	TMap<EAmmunitionType, int32> MaxAmmunitionAmount;
 
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Loadout")
-	TMap<EEquipmentSlots, TSubclassOf<class AEquipableItem>> ItemsLoadout;
+	TMap<EEquipmentSlots, TSubclassOf<AEquipableItem>> ItemsLoadout;
 
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Loadout")
 	TSet<EEquipmentSlots> IgnoreSlotsWhileSwitching;

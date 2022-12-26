@@ -7,6 +7,8 @@
 #include "ZeroAmbitionsTypes.h"
 #include "EquipableItem.generated.h"
 
+DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FOnEquipmentStateChanged, bool, bIsEquipped);
+
 class AZABaseCharacter;
 class UAnimMontage;
 UCLASS()
@@ -23,7 +25,14 @@ public:
 	UAnimMontage* GetCharacterEquipAnimMontage() const;
 
 	virtual void SetOwner(AActor* NewOwner) override;
+
+	virtual void Equip();
+	virtual void UnEquip(); 
 protected:
+
+	UPROPERTY(BlueprintAssignable)
+	FOnEquipmentStateChanged OnEquipmentStateChanged;
+	
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Equipable item")
 	EEquipableItemType ItemType = EEquipableItemType::None;
 

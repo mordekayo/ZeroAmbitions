@@ -37,6 +37,22 @@ void AEquipableItem::SetOwner(AActor* NewOwner)
 	}
 }
 
+void AEquipableItem::Equip()
+{
+	if(OnEquipmentStateChanged.IsBound())
+	{
+		OnEquipmentStateChanged.Broadcast(true);
+	}
+}
+
+void AEquipableItem::UnEquip()
+{
+	if(OnEquipmentStateChanged.IsBound())
+	{
+		OnEquipmentStateChanged.Broadcast(false);
+	}
+}
+
 AZABaseCharacter* AEquipableItem::GetCharacterOwner() const
 {
 	return CachedCharacterOwner.IsValid() ? CachedCharacterOwner.Get() : nullptr;
