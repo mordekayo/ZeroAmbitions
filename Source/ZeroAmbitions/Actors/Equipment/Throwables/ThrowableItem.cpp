@@ -19,11 +19,12 @@ void AThrowableItem::Throw()
 		return;
 	}
 
-	FVector PlayerViewPoint = CharacterOwner->GetActorLocation() + CharacterOwner->GetCapsuleComponent()->GetScaledCapsuleHalfHeight();
+	FVector PlayerViewPoint = CharacterOwner->GetActorLocation();
+	PlayerViewPoint.Z += CharacterOwner->GetCapsuleComponent()->GetScaledCapsuleHalfHeight();
 
 	FVector ViewDirection = CharacterOwner->GetActorForwardVector();
 
-	FVector SpawnLocation = PlayerViewPoint + ViewDirection * 100.0f;
+	FVector SpawnLocation = PlayerViewPoint + ViewDirection * 1.0f;
 	AZAProjectile* Projectile = GetWorld()->SpawnActor<AZAProjectile>(ProjectileClass, SpawnLocation, FRotator::ZeroRotator);
 
 	if(IsValid(Projectile))
