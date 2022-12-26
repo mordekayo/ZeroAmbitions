@@ -14,6 +14,7 @@ typedef TArray<AEquipableItem*, TInlineAllocator<static_cast<uint32>(EEquipmentS
 typedef TArray<int32, TInlineAllocator<static_cast<uint32>(EAmmunitionType::MAX)>> TAmmunitionArray;
 
 DECLARE_MULTICAST_DELEGATE_TwoParams(FOnCurrentWeaponAmmoChanged, int32, int32)
+DECLARE_MULTICAST_DELEGATE_OneParam(FOnCurrentItemAmountChanged, int32);
 
 class ARangeWeaponItem;
 
@@ -31,7 +32,8 @@ public:
 	bool IsEqupping() const;
 
 	FOnCurrentWeaponAmmoChanged OnCurrentWeaponAmmoChangedEvent;
-
+	FOnCurrentItemAmountChanged OnCurrentItemAmountChanged;
+	
 	void ReloadCurrentWeapon();
 	void ReloadAmmoInCurrentWeapon(int32 NumberOfAmmo = 0, bool bCheckIfFull = false);
 	void UnEquipCurrentItem();
@@ -42,6 +44,7 @@ public:
 	void EquipPreviousItem();
 
 	void LaunchCurrentThrowableItem();
+
 protected:
 	
 	virtual void BeginPlay() override;
@@ -54,6 +57,9 @@ protected:
 
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Loadout")
 	TSet<EEquipmentSlots> IgnoreSlotsWhileSwitching;
+
+	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Loadout")
+	TMap<TSubclassOf<AThrowableItem>, int32> ThrowableItemCount;
 	
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Loadout")
 	EEquipmentSlots AutoEquipItemInSlot = EEquipmentSlots::None;

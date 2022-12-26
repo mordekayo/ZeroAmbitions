@@ -15,12 +15,15 @@ class ZEROAMBITIONS_API UPlayerHUDWidget : public UUserWidget
 	GENERATED_BODY()
 
 public:
-	class UAmmoWidget* GetAmmoWidget();
+	class UAmmoWidget* GetAmmoWidget() const;
+	class UItemsWidget* GetItemsWidget() const;
 	protected:
 	UFUNCTION(BlueprintCallable)
 	float GetHealthPercent() const;
 
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Widget names")
 	FName AmmoWidgetName;
+	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Widget names")
+	FName ItemsWidgetName;
 	
 };

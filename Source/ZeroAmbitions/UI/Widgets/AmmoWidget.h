@@ -20,7 +20,7 @@ protected:
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Ammo")
 	int32 TotalAmmo;
 
-private:
+public:
 	UFUNCTION()
 	void UpdateAmmoCount(int32 NewAmmo, int32 NewTotalAmmo);
 	

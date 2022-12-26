@@ -4,13 +4,19 @@
 #include "UI/Widgets/PlayerHUDWidget.h"
 
 #include "AmmoWidget.h"
+#include "ItemsWidget.h"
 #include "Blueprint/WidgetTree.h"
 #include "Characters/ZABaseCharacter.h"
 #include "Components/CharacterComponents/CharacterAttributesComponent.h"
 
-UAmmoWidget* UPlayerHUDWidget::GetAmmoWidget()
+UAmmoWidget* UPlayerHUDWidget::GetAmmoWidget() const
 {
 	return WidgetTree->FindWidget<UAmmoWidget>(AmmoWidgetName);
+}
+
+UItemsWidget* UPlayerHUDWidget::GetItemsWidget() const
+{
+	return WidgetTree->FindWidget<UItemsWidget>(ItemsWidgetName);
 }
 
 float UPlayerHUDWidget::GetHealthPercent() const

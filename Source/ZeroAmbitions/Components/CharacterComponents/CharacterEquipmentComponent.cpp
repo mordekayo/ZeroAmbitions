@@ -54,13 +54,21 @@ void UCharacterEquipmentComponent::EquipItemInSlot(EEquipmentSlots Slot)
 	{
 		return;
 	}
+
+	if(Slot == EEquipmentSlots::PrimaryItemSlot)
+	{
+		if(ThrowableItemCount[ItemsArray[static_cast<uint32>(EEquipmentSlots::PrimaryItemSlot)]->GetClass()] <= 0)
+		{
+			return;
+		}
+	}
 	
 	UnEquipCurrentItem();
 	
 	CurrentEquippedItem = ItemsArray[static_cast<uint32>(Slot)];
 	CurrentEquippedWeapon = Cast<ARangeWeaponItem>(CurrentEquippedItem);
-	CurrentThrowableItem = Cast<AThrowableItem>(CurrentEquippedItem);
 	CurrentMeleeWeaponItem = Cast<AMeleeWeaponItem>(CurrentEquippedItem);
+	CurrentThrowableItem = Cast<AThrowableItem>(CurrentEquippedItem);
 	
 	if(IsValid(CurrentEquippedItem))
 	{
@@ -120,8 +128,13 @@ void UCharacterEquipmentComponent::EquipPreviousItem()
 
 void UCharacterEquipmentComponent::LaunchCurrentThrowableItem()
 {
-	if(CurrentThrowableItem != nullptr)
+	if(IsValid(CurrentThrowableItem))
 	{
+		ThrowableItemCount[CurrentThrowableItem->GetClass()]--;
+		if(OnCurrentItemAmountChanged.IsBound())
+		{
+			OnCurrentItemAmountChanged.Broadcast(ThrowableItemCount[CurrentThrowableItem->GetClass()]);
+		}
 		CurrentThrowableItem->Throw();
 		bIsEquipping = false;
 		EquipItemInSlot(PreviousEquippedSlot);

@@ -5,6 +5,7 @@
 #include "../ZABaseCharacter.h"
 #include "Components/CharacterComponents/CharacterEquipmentComponent.h"
 #include "UI/Widgets/AmmoWidget.h"
+#include "UI/Widgets/ItemsWidget.h"
 
 void AZAPlayerController::SetPawn(APawn* InPawn)
 {
@@ -219,6 +220,13 @@ void AZAPlayerController::CreateAndInitizalizeWidgets()
 		{
 			UCharacterEquipmentComponent* CharacterEquipment = CachedBaseCharacter->GetCharacterEquipmentComponent_Mutable();
 			CharacterEquipment->OnCurrentWeaponAmmoChangedEvent.AddUFunction(AmmoWidget, FName("UpdateAmmoCount"));
+		}
+
+		UItemsWidget* ItemsWidget = PlayerHUDWidget->GetItemsWidget();
+		if (IsValid(ItemsWidget))
+		{
+			UCharacterEquipmentComponent* CharacterEquipment = CachedBaseCharacter->GetCharacterEquipmentComponent_Mutable();
+			CharacterEquipment->OnCurrentItemAmountChanged.AddUFunction(ItemsWidget, FName("UpdateItemsCount"));
 		}
 	}
 }
