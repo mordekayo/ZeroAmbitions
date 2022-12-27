@@ -103,6 +103,16 @@ void ARangeWeaponItem::EndReload(bool bIsSuccess)
 	}
 }
 
+bool ARangeWeaponItem::IsFiring() const
+{
+	return bIsFiring;
+}
+
+bool ARangeWeaponItem::IsRealoading() const
+{
+	return bIsReloading;
+}
+
 int32 ARangeWeaponItem::GetAmmo() const
 {
 	return Ammo;
@@ -155,10 +165,10 @@ void ARangeWeaponItem::MakeShot()
 	{
 		return;
 	}
-
+	
 	CharacterOwner->PlayAnimMontage(CharacterFireMontage);
 	PlayAnimMontage(WeaponFireMontage);
-
+	
 	if(!CanShoot())
 	{
 		StopFire();
@@ -168,13 +178,11 @@ void ARangeWeaponItem::MakeShot()
 		}
 		return;
 	}
-
+	
 	EndReload(false);
-	APlayerController* Controller = CharacterOwner->GetController<APlayerController>();
-	if (!IsValid(Controller))
-	{
-		return;
-	}
+
+
+	AController* Controller = CharacterOwner->GetController<AController>();
 	
 	WeaponBarell->Shot(Controller, GetCurrentBulletSpreadAngle());
 	SetAmmo(Ammo - 1);

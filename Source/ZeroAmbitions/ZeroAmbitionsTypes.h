@@ -1,5 +1,6 @@
 #pragma once
 
+#define ECC_Melee ECC_GameTraceChannel1
 #define ECC_InteractionVolume ECC_GameTraceChannel2
 #define ECC_Bullet ECC_GameTraceChannel4
 
@@ -10,12 +11,14 @@ const FName SocketFPCamera = FName("CameraSocket");
 const FName SocketBarellMuzzle = FName("MuzzleSocket");
 const FName SocketCharacterWeapon = FName("CharacterWeaponSocket");
 
+const FName CollisionProfileNoCollision = FName("NoCollision");
 const FName CollisionProfilePawn = FName("Pawn");
 const FName CollisionProfileRagdoll = FName("Ragdoll");
 const FName CollisionProfilePawnInteractionVolume = FName("PawnInteractionVolume");
 
 const FName DebugCategoryCharacterAttributes = FName("CharacterAttributes");
 const FName DebugCategoryRangeWeapon = FName("RangeWeapon");
+const FName DebugCategoryMeleeWeapon = FName("MeleeWeapon");
 
 const FName SectionMontageReloadEnd = FName("ReloadEnd");
 

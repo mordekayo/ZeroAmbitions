@@ -130,12 +130,11 @@ protected:
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Character | Components")
 	class UCharacterEquipmentComponent* CharacterEquipmentComponent;
 
-	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Team")
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Character | Team")
 	ETeams Team = ETeams::Enemy;
 	
 	virtual void OnDeath();
 	virtual void OnStaminaOutOrMax(bool MaxOrOut);
-
 
 private:
 	

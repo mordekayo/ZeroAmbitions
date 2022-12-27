@@ -27,10 +27,11 @@ void ATurret::PossessedBy(AController* NewController)
 {
 	Super::PossessedBy(NewController);
 
-	const AAIController* AIController = Cast<AAIController>(NewController);
+	AAIController* AIController = Cast<AAIController>(NewController);
 	if(IsValid(AIController))
 	{
 		FGenericTeamId TeamId(static_cast<uint8>(Team));
+		AIController->SetGenericTeamId(TeamId);
 	}
 }
 

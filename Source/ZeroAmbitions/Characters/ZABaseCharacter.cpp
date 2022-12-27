@@ -47,10 +47,11 @@ void AZABaseCharacter::Tick(float DeltaTime)
 void AZABaseCharacter::PossessedBy(AController* NewController)
 {
 	Super::PossessedBy(NewController);
-	const AAIController* AIController = Cast<AAIController>(NewController);
+	AAIController* AIController = Cast<AAIController>(NewController);
 	if(IsValid(AIController))
 	{
 		FGenericTeamId TeamId(static_cast<uint8>(Team));
+		AIController->SetGenericTeamId(TeamId);
 	}
 	AZAPlayerController* PlayerController = Cast<AZAPlayerController>(NewController);
 	if(IsValid(PlayerController))
@@ -81,7 +82,7 @@ UCharacterAttributesComponent* AZABaseCharacter::GetCharacterAttributesComponent
 
 FGenericTeamId AZABaseCharacter::GetGenericTeamId() const
 {
-	return FGenericTeamId(static_cast<uint8>(Team));
+	return FGenericTeamId((uint8)(Team));
 }
 
 void AZABaseCharacter::ChangeCrouchState()

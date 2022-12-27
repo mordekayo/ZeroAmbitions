@@ -24,7 +24,7 @@ void AThrowableItem::Throw()
 
 	FVector ViewDirection = CharacterOwner->GetActorForwardVector();
 
-	FVector SpawnLocation = PlayerViewPoint + ViewDirection * 1.0f;
+	FVector SpawnLocation = PlayerViewPoint + ViewDirection * 100.0f;
 	AZAProjectile* Projectile = GetWorld()->SpawnActor<AZAProjectile>(ProjectileClass, SpawnLocation, FRotator::ZeroRotator);
 
 	if(IsValid(Projectile))

@@ -10,6 +10,8 @@
  * 
  */
 
+class UMeleeHitRegistrator;
+
 USTRUCT(BlueprintType)
 struct FMeleeAttackDescription
 {
@@ -34,13 +36,22 @@ public:
 	AMeleeWeaponItem();
 
 	void StartAttack(EMeleeAttackTypes AttackType);
-	
+
+	void SetIsHitRegistationEnabled(bool bIsRegistrationEnabled);
 protected:
 	
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Melee attack")
 	TMap<EMeleeAttackTypes, FMeleeAttackDescription> Attacks;
 
+	virtual void BeginPlay() override;
 private:
+
+	UFUNCTION()
+	void ProcessHit(const FHitResult HitResult, const FVector& HitDirection);
+	
+	TArray<UMeleeHitRegistrator*> HitRegistrators;
+	TSet<AActor*> HitActors;
+	
 	FMeleeAttackDescription* CurrentAttack;
 	void OnAttackTimerElapsed();
 	FTimerHandle AttackTimer;

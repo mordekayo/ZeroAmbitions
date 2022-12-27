@@ -4,6 +4,7 @@
 #include "Actors/Equipment/Weapons/MeleeWeaponItem.h"
 
 #include "AI/Characters/ZAAIBaseCharacter.h"
+#include "Components/Weapon/MeleeHitRegistrator.h"
 
 AMeleeWeaponItem::AMeleeWeaponItem()
 {
@@ -18,6 +19,7 @@ void AMeleeWeaponItem::StartAttack(EMeleeAttackTypes AttackType)
 		return;
 	}
 
+	HitActors.Empty();
 	CurrentAttack = Attacks.Find(AttackType);
 	if(CurrentAttack != nullptr && IsValid(CurrentAttack->AttackMontage))
 	{
@@ -34,7 +36,59 @@ void AMeleeWeaponItem::StartAttack(EMeleeAttackTypes AttackType)
 	}
 }
 
+void AMeleeWeaponItem::SetIsHitRegistationEnabled(bool bIsRegistrationEnabled)
+{
+	HitActors.Empty();
+	for(UMeleeHitRegistrator* HitRegistrator : HitRegistrators)
+	{
+		HitRegistrator->SetIsHitRegistrationEnabled(bIsRegistrationEnabled);
+	}
+}
+
+void AMeleeWeaponItem::BeginPlay()
+{
+	Super::BeginPlay();
+	
+	GetComponents<UMeleeHitRegistrator>(HitRegistrators);
+
+	for(UMeleeHitRegistrator* HitRegistrator : HitRegistrators)
+	{
+		HitRegistrator->OnMeleeHitRegistred.AddUFunction(this, FName("ProcessHit"));
+	}
+}
+
+void AMeleeWeaponItem::ProcessHit(const FHitResult HitResult, const FVector& HitDirection)
+{
+	AActor* HitActor = HitResult.GetActor();
+	if(!IsValid(HitActor))
+	{
+		return;
+	}
+
+	if(HitActors.Contains(HitActor))
+	{
+		return;
+	}
+
+	if(CurrentAttack == nullptr)
+	{
+		return;
+	}
+
+	FPointDamageEvent DamageEvent;
+	DamageEvent.HitInfo = HitResult;
+	DamageEvent.ShotDirection = HitDirection;
+	DamageEvent.DamageTypeClass = CurrentAttack->DamageTypeClass;
+
+	AZABaseCharacter* CharacterOwner = GetCharacterOwner();
+	AController* Controller = IsValid(CharacterOwner) ? CharacterOwner->GetController<AController>() : nullptr;
+	HitActor->TakeDamage(CurrentAttack->DamageAmount, DamageEvent, Controller, GetOwner());
+
+	HitActors.Add(HitActor);
+}
+
 void AMeleeWeaponItem::OnAttackTimerElapsed()
 {
 	CurrentAttack = nullptr;
+	SetIsHitRegistationEnabled(false);
 }

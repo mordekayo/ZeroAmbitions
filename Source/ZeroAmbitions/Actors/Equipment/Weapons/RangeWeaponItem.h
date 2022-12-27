@@ -38,6 +38,8 @@ public:
 	void StartReload();
 	void EndReload(bool bIsSuccess);
 
+	bool IsFiring() const;
+	bool IsRealoading() const;
 	int32 GetAmmo() const;
 	int32 GetMaxAmmo() const;
 	void SetAmmo(int32 NewAmmo);

@@ -154,9 +154,9 @@ void UCharacterEquipmentComponent::BeginPlay()
 EEquipableItemType UCharacterEquipmentComponent::GetCurrentEquippedItemType() const
 {
 	EEquipableItemType Result = EEquipableItemType::None;
-	if (IsValid(CurrentEquippedWeapon))
+	if (IsValid(CurrentEquippedItem))
 	{
-		Result = CurrentEquippedWeapon->GetItemType();
+		Result = CurrentEquippedItem->GetItemType();
 	}
 	return Result;
 }
