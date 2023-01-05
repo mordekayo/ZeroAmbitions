@@ -13,7 +13,11 @@
 #include "Actors/Equipment/Weapons/MeleeWeaponItem.h"
 #include "Kismet/KismetSystemLibrary.h"
 #include "Actors/Equipment/Weapons/RangeWeaponItem.h"
+#include "Actors/Interactive/Interface/Interactive.h"
 #include "Components/CapsuleComponent.h"
+#include "Components/CharacterComponents/CharacterInventoryComponent.h"
+#include "Kismet/KismetMathLibrary.h"
+#include "Utils/ZATraceUtils.h"
 
 AZABaseCharacter::AZABaseCharacter(const FObjectInitializer& ObjectInitializer)
 	:Super(ObjectInitializer.SetDefaultSubobjectClass<UZABaseCharacterMovementComponent>(ACharacter::CharacterMovementComponentName))
@@ -25,6 +29,7 @@ AZABaseCharacter::AZABaseCharacter(const FObjectInitializer& ObjectInitializer)
 	
 	CharacterAttributesComponent = CreateDefaultSubobject<UCharacterAttributesComponent>(TEXT("CharacterAttributes"));
 	CharacterEquipmentComponent = CreateDefaultSubobject<UCharacterEquipmentComponent>(TEXT("CharacterEquipment"));
+	CharacterInventoryComponent = CreateDefaultSubobject<UCharacterInventoryComponent>(TEXT("CharacterInventory"));
 }
 
 void AZABaseCharacter::BeginPlay()
@@ -35,6 +40,15 @@ void AZABaseCharacter::BeginPlay()
 	CharacterAttributesComponent->OnOutOfStaminaEvent.AddUObject(this, &AZABaseCharacter::OnStaminaOutOrMax);
 }
 
+void AZABaseCharacter::EndPlay(const EEndPlayReason::Type EndPlayReason)
+{
+	if(OnInteractableObjectFound.IsBound())
+	{
+		OnInteractableObjectFound.Unbind();
+	}
+	Super::EndPlay(EndPlayReason);
+}
+
 void AZABaseCharacter::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
@@ -42,6 +56,22 @@ void AZABaseCharacter::Tick(float DeltaTime)
 	
 	if (bIKEnabled)
 		UpdateIKSettings(DeltaTime);
+
+	TraceLineOfSight();
+	RotateToCursor();
+}
+
+void AZABaseCharacter::RotateToCursor()
+{
+	APlayerController* PlayerController = GetController<APlayerController>();
+	if(IsValid(PlayerController))
+	{
+		FHitResult HitResult;
+		PlayerController->GetHitResultUnderCursor(ECC_Visibility, true, HitResult);
+		const FRotator NewRotation = (HitResult.ImpactPoint - GetActorLocation()).Rotation();
+		//FRotator PlayerRot = UKismetMathLibrary::FindLookAtRotation(this->GetActorLocation(), GetActorLocation());
+		PlayerController->SetControlRotation(NewRotation);
+	}
 }
 
 void AZABaseCharacter::PossessedBy(AController* NewController)
@@ -79,6 +109,45 @@ UCharacterAttributesComponent* AZABaseCharacter::GetCharacterAttributesComponent
 {
 	return CharacterAttributesComponent;
 }
+
+void AZABaseCharacter::Interact()
+{
+	if(LineOfSightObject.GetInterface())
+	{
+		LineOfSightObject->Interact(this);
+	}
+}
+
+void AZABaseCharacter::UseInventory(APlayerController* PlayerController)
+{
+	if(!IsValid(PlayerController))
+	{
+		return;
+	}
+	
+	if(!CharacterInventoryComponent->IsViewVisible())
+	{
+		CharacterInventoryComponent->OpenViewInventory(PlayerController);
+		PlayerController->SetInputMode(FInputModeGameAndUI{});
+	}
+	else
+	{
+		CharacterInventoryComponent->CloseViewInventory();
+		PlayerController->SetInputMode(FInputModeGameOnly{});
+	}
+}
+
+bool AZABaseCharacter::PickupItem(TWeakObjectPtr<UInventoryItem> ItemToPickup)
+{
+	bool Result = false;
+	if(CharacterInventoryComponent->HasFreeSlot())
+	{
+		CharacterInventoryComponent->AddItem(ItemToPickup, 1);
+		Result = true;
+	}
+	return Result;
+}
+
 
 FGenericTeamId AZABaseCharacter::GetGenericTeamId() const
 {
@@ -267,6 +336,56 @@ const UZABaseCharacterMovementComponent* AZABaseCharacter::GetBaseCharacterMovem
 	return ZABaseCharacterMovementComponent;
 }
 
+void AZABaseCharacter::TraceLineOfSight()
+{
+	if(!IsPlayerControlled())
+	{
+		return;
+	}
+	
+	FVector ViewLocation = GetActorLocation();
+	ViewLocation.Z += GetCapsuleComponent()->GetScaledCapsuleHalfHeight();
+	FRotator ViewRotation;
+	
+	APlayerController* PlayerController = GetController<APlayerController>();
+
+	FVector ViewDirection = GetActorForwardVector();
+	FVector TraceEnd = ViewLocation + ViewDirection * LineOfSightDistance;
+
+	FHitResult HitResult;
+
+	FCollisionQueryParams QueryParams;
+	QueryParams.AddIgnoredActor(this);
+	
+	if(ZATraceUtils::SweepCapsuleSingleByChannel(GetWorld(),
+		HitResult,
+		ViewLocation,
+		TraceEnd,
+		ECC_Visibility,
+		GetCapsuleComponent()->GetScaledCapsuleRadius(),
+		GetCapsuleComponent()->GetScaledCapsuleHalfHeight(),
+		FQuat{},
+		QueryParams))
+	{
+		if(LineOfSightObject.GetObject() != HitResult.GetActor())
+		{
+			LineOfSightObject = HitResult.GetActor();
+
+			FName ActionName;
+
+			if(LineOfSightObject.GetInterface())
+			{
+				ActionName = LineOfSightObject->GetActionEventName();
+			}
+			else
+			{
+				ActionName = NAME_None;
+			}
+			OnInteractableObjectFound.ExecuteIfBound(ActionName);
+		}
+	}
+}
+
 void AZABaseCharacter::OnDeath()
 {
 	float Duration = PlayAnimMontage(OnDeathAnimMontage);
@@ -274,6 +393,11 @@ void AZABaseCharacter::OnDeath()
 	{
 		EnableRagdoll();
 	}
+}
+
+void AZABaseCharacter::AddEquipmentItem(const TSubclassOf<AEquipableItem> EquipableItemClass) const
+{
+	CharacterEquipmentComponent->AddEquipmentItem(EquipableItemClass);
 }
 
 void AZABaseCharacter::OnStaminaOutOrMax(bool MaxOrOut)

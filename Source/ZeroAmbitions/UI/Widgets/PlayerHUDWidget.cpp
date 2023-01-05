@@ -4,6 +4,7 @@
 #include "UI/Widgets/PlayerHUDWidget.h"
 
 #include "AmmoWidget.h"
+#include "HighlightInteractable.h"
 #include "ItemsWidget.h"
 #include "Blueprint/WidgetTree.h"
 #include "Characters/ZABaseCharacter.h"
@@ -17,6 +18,31 @@ UAmmoWidget* UPlayerHUDWidget::GetAmmoWidget() const
 UItemsWidget* UPlayerHUDWidget::GetItemsWidget() const
 {
 	return WidgetTree->FindWidget<UItemsWidget>(ItemsWidgetName);
+}
+
+void UPlayerHUDWidget::SetHighlightInteractibleVisibility(bool bIsVisible)
+{
+	if(!IsValid(InteractableKey))
+	{
+		return;
+	}
+	
+	if(bIsVisible)
+	{
+		InteractableKey->SetVisibility(ESlateVisibility::Visible);
+	}
+	else
+	{
+		InteractableKey->SetVisibility(ESlateVisibility::Hidden);
+	}
+}
+
+void UPlayerHUDWidget::SetHighLightInteractibleActionText(FName KeyName)
+{
+	if(IsValid(InteractableKey))
+	{
+		InteractableKey->SetActionText(KeyName);
+	}
 }
 
 float UPlayerHUDWidget::GetHealthPercent() const

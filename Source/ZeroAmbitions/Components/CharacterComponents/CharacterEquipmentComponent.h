@@ -6,6 +6,7 @@
 #include "Components/ActorComponent.h"
 #include "ZeroAmbitionsTypes.h"
 #include "Actors/Equipment/EquipableItem.h"
+#include "Actors/Equipment/Weapons/RangeWeaponItem.h"
 #include "CharacterEquipmentComponent.generated.h"
 
 class AMeleeWeaponItem;
@@ -46,6 +47,8 @@ public:
 
 	void LaunchCurrentThrowableItem();
 
+	void AddEquipmentItem(const TSubclassOf<AEquipableItem> EquipableItemClass);
+	
 protected:
 	
 	virtual void BeginPlay() override;
@@ -97,3 +100,5 @@ private:
 
 	FTimerHandle EquipTimer;
 };
+
+

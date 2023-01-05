@@ -23,10 +23,9 @@ public:
 	virtual void ActorsPerceptionUpdated(const TArray<AActor*>& UpdatedActors) override;
 
 	virtual void OnMoveCompleted(FAIRequestID RequestID, const FPathFollowingResult& Result) override;
-	
+	void SetupPatrolling();
+
 protected:
-	
-	virtual void BeginPlay() override;
 
 	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "Movement")
 	float TargetReachedRadius = 100.0f;

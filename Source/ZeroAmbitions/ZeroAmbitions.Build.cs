@@ -10,7 +10,7 @@ public class ZeroAmbitions : ModuleRules
 	
 		PublicDependencyModuleNames.AddRange(new string[] { "Core", "CoreUObject", "Engine", "InputCore", "Niagara", "UMG", "GameplayTasks", "NavigationSystem" });
 
-		PrivateDependencyModuleNames.AddRange(new string[] {  });
+		PrivateDependencyModuleNames.AddRange(new string[] { "Slate", "SlateCore"  });
 
 		PrivateIncludePaths.AddRange(new string[] { Name });
 

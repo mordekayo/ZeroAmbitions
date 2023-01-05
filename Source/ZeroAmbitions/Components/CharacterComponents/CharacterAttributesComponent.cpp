@@ -45,6 +45,12 @@ float UCharacterAttributesComponent::GetHealthPercent() const
 	return Health / MaxHealth;
 }
 
+void UCharacterAttributesComponent::AddHealth(float HealthToAdd)
+{
+	Health = FMath::Clamp(Health + HealthToAdd, 0.0f, MaxHealth);
+	OnHealthChanged();
+}
+
 void UCharacterAttributesComponent::UpdateStaminaValue(float DeltaTime)
 {
 	if (CachedBaseCharacterOwner->GetBaseCharacterMovementComponent()->IsSprinting())
@@ -90,16 +96,8 @@ void UCharacterAttributesComponent::DebugDrawAttributes()
 	DrawDebugString(GetWorld(), StaminaTextLocation, FString::Printf(TEXT("Stamina: %.2f"), Stamina), nullptr, FColor::Blue, 0.0f, true);
 }
 
-void UCharacterAttributesComponent::OnTakeAnyDamage(AActor* DamagedActor, float Damage, const class UDamageType* DamageType, class AController* InstigatedBy, AActor* DamageCauser)
+void UCharacterAttributesComponent::OnHealthChanged()
 {
-	if (!IsAlive())
-	{
-		return;
-	}
-
-	Health = FMath::Clamp(Health - Damage, 0.0f, MaxHealth);
-	//UE_LOG(LogDamage, Warning, TEXT("UCharacterAttributesComponent::OnTakeAnyDamage %s received %.2f amount of damage from %s"), *CachedBaseCharacterOwner->GetName(), Damage, *DamageCauser->GetName());
-
 	if (Health <= 0.0f)
 	{
 		//UE_LOG(LogDamage, Warning, TEXT("UCharacterAttributesComponent::OnTakeAnyDamage character %s is killed by an actor %s"), *CachedBaseCharacterOwner->GetName(), *DamageCauser->GetName());
@@ -108,6 +106,18 @@ void UCharacterAttributesComponent::OnTakeAnyDamage(AActor* DamagedActor, float 
 			OnDeathEvent.Broadcast();
 		}
 	}
+}
+
+void UCharacterAttributesComponent::OnTakeAnyDamage(AActor* DamagedActor, float Damage, const class UDamageType* DamageType, class AController* InstigatedBy, AActor* DamageCauser)
+{
+	if (!IsAlive())
+	{
+		return;
+	}
+
+	Health = FMath::Clamp(Health - Damage, 0.0f, MaxHealth);
+	UE_LOG(LogDamage, Warning, TEXT("UCharacterAttributesComponent::OnTakeAnyDamage %s received %.2f amount of damage from %s"), *CachedBaseCharacterOwner->GetName(), Damage, *DamageCauser->GetName());
+	OnHealthChanged();
 }
 
 

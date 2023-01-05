@@ -6,12 +6,18 @@
 #include "GenericTeamAgentInterface.h"
 #include "ZeroAmbitionsTypes.h"
 #include "GameFramework/Character.h"
+#include "UObject/ScriptInterface.h"
 #include "ZABaseCharacter.generated.h"
+
+class UInventoryItem;
+class AEquipableItem;
+DECLARE_DELEGATE_OneParam(FOnInteractableObjectFound, FName);
 
 class UZABaseCharacterMovementComponent;
 class UCharacterAttributesComponent;
 class UCharacterEquipmentComponent;
-
+class UCharacterInventoryComponent;
+class IInteractable;
 /**
  * 
  */
@@ -26,6 +32,7 @@ public:
 	
 	virtual void Tick(float DeltaTime) override;
 	virtual void BeginPlay() override;
+	virtual void EndPlay(const EEndPlayReason::Type EndPlayReason) override;
 	virtual void PossessedBy(AController* NewController) override;
 
 	virtual void MoveForward(float Value) {};
@@ -69,6 +76,13 @@ public:
 	const UCharacterAttributesComponent* GetCharacterAttributesComponent() const;
 	UCharacterAttributesComponent* GetCharacterAttributesComponent_Mutable() const;
 
+	void Interact();
+
+	void UseInventory(APlayerController* PlayerController);
+	bool PickupItem(TWeakObjectPtr<UInventoryItem> ItemToPickup);
+	void AddEquipmentItem(const TSubclassOf<AEquipableItem> EquipableItemClass) const;
+	
+	FOnInteractableObjectFound OnInteractableObjectFound;
 	/** IGenericTeamAgentInterface*/
 	virtual FGenericTeamId GetGenericTeamId() const override;
 	/** ~IGenericTeamAgentInterface*/
@@ -130,14 +144,27 @@ protected:
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Character | Components")
 	class UCharacterEquipmentComponent* CharacterEquipmentComponent;
 
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Character | Components")
+	class UCharacterInventoryComponent* CharacterInventoryComponent;
+	
+
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Character | Team")
 	ETeams Team = ETeams::Enemy;
+
+	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Character | Team")
+	float LineOfSightDistance = 500.0f;
+
+	void TraceLineOfSight();
+
+	UPROPERTY()
+	TScriptInterface<IInteractable> LineOfSightObject;
 	
 	virtual void OnDeath();
 	virtual void OnStaminaOutOrMax(bool MaxOrOut);
 
 private:
-	
+
+	void RotateToCursor();
 	void EnableRagdoll();
 
 	bool bIsSprintRequested = false;
@@ -152,3 +179,5 @@ private:
 
 	TWeakObjectPtr<class AZAPlayerController> ZAPlayerController;
 };
+
+

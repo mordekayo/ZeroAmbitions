@@ -6,6 +6,7 @@
 #include "Blueprint/UserWidget.h"
 #include "PlayerHUDWidget.generated.h"
 
+class UHighlightInteractable;
 /**
  * 
  */
@@ -17,7 +18,11 @@ class ZEROAMBITIONS_API UPlayerHUDWidget : public UUserWidget
 public:
 	class UAmmoWidget* GetAmmoWidget() const;
 	class UItemsWidget* GetItemsWidget() const;
-	protected:
+
+	void SetHighlightInteractibleVisibility(bool bIsVisible);
+
+	void SetHighLightInteractibleActionText(FName KeyName);
+protected:
 	UFUNCTION(BlueprintCallable)
 	float GetHealthPercent() const;
 
@@ -26,5 +31,7 @@ public:
 	
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Widget names")
 	FName ItemsWidgetName;
-	
+
+	UPROPERTY(meta = (BindWidget))
+	UHighlightInteractable* InteractableKey;
 };

@@ -11,7 +11,12 @@ void AZAPlayerController::SetPawn(APawn* InPawn)
 {
 	Super::SetPawn(InPawn);
 	CachedBaseCharacter = Cast<AZABaseCharacter>(InPawn);
-	CreateAndInitizalizeWidgets();
+	if(IsLocalController() && CachedBaseCharacter.IsValid())
+	{
+		CreateAndInitizalizeWidgets();
+		CachedBaseCharacter->OnInteractableObjectFound.BindUObject(this, &AZAPlayerController::OnInteractableObjectFound);
+	}
+	bShowMouseCursor = true;
 }
 
 bool AZAPlayerController::GetIgnoreCameraPitch() const
@@ -47,8 +52,25 @@ void AZAPlayerController::SetupInputComponent()
 	InputComponent->BindAction("EquipPrimaryItem", EInputEvent::IE_Pressed, this, &AZAPlayerController::EquipPrimaryItem);
 	InputComponent->BindAction("PrimaryMeleeAttack", EInputEvent::IE_Pressed, this, &AZAPlayerController::PrimaryMeleeAttack);
 	InputComponent->BindAction("SecondaryMeleeAttack", EInputEvent::IE_Pressed, this, &AZAPlayerController::SecondaryMeleeAttack);
+	InputComponent->BindAction("UseInventory", EInputEvent::IE_Pressed, this, &AZAPlayerController::UseInventory);
+	InputComponent->BindAction(ActionInteract, EInputEvent::IE_Pressed, this, &AZAPlayerController::Interact);
+}
 
-	
+void AZAPlayerController::OnInteractableObjectFound(FName ActionName)
+{
+	if(!IsValid(PlayerHUDWidget))
+	{
+		return;
+	}
+
+	TArray<FInputActionKeyMapping> ActionKeys = PlayerInput->GetKeysForAction(ActionName);
+	const bool HasAnyKeys = ActionKeys.Num() != 0;
+	if(HasAnyKeys)
+	{
+		const FName ActionKey = ActionKeys[0].Key.GetFName();
+		PlayerHUDWidget->SetHighLightInteractibleActionText(ActionKey);
+	}
+	PlayerHUDWidget->SetHighlightInteractibleVisibility(HasAnyKeys);
 }
 
 void AZAPlayerController::MoveForward(float Value)
@@ -199,6 +221,22 @@ void AZAPlayerController::SecondaryMeleeAttack()
 	if(CachedBaseCharacter.IsValid())
 	{
 		CachedBaseCharacter->SecondaryMeleeAttack();
+	}
+}
+
+void AZAPlayerController::Interact()
+{
+	if(CachedBaseCharacter.IsValid())
+	{
+		CachedBaseCharacter->Interact();
+	}
+}
+
+void AZAPlayerController::UseInventory()
+{
+	if(CachedBaseCharacter.IsValid())
+	{
+		CachedBaseCharacter->UseInventory(this);
 	}
 }
 

@@ -94,6 +94,22 @@ void UCharacterEquipmentComponent::EquipItemInSlot(EEquipmentSlots Slot)
 	}
 }
 
+void UCharacterEquipmentComponent::AddEquipmentItem(const TSubclassOf<AEquipableItem> EquipableItemClass)
+{
+	ARangeWeaponItem* RangeWeaponDefaultObject = Cast<ARangeWeaponItem>(EquipableItemClass->GetDefaultObject());
+
+	if(!IsValid(RangeWeaponDefaultObject))
+	{
+		return;
+	}
+
+	AmmunitionArray[static_cast<uint32>(RangeWeaponDefaultObject->GetAmmoType())] += RangeWeaponDefaultObject->GetMaxAmmo();
+	if(IsValid(CurrentEquippedWeapon))
+	{
+		OnCurrentWeaponAmmoChanged(CurrentEquippedWeapon->GetAmmo());
+	}
+}
+
 void UCharacterEquipmentComponent::EquipNextItem()
 {
 	const uint32 CurrentSlotIndex = static_cast<uint32>(CurrentEquippedSlot);

@@ -16,6 +16,7 @@ void AZAAICharacterController::SetPawn(APawn* InPawn)
 		checkf(InPawn->IsA<AZAAIBaseCharacter>(), TEXT("AZAAICharacterController::SePawn ZAAICharacterController can posses only AZAAIBaseCharacters"));
 		CachedAICharacter = StaticCast<AZAAIBaseCharacter*>(InPawn);
 		RunBehaviorTree(CachedAICharacter->GetBehaviorTree());
+		SetupPatrolling();
 	}
 	else
 	{
@@ -46,10 +47,8 @@ void AZAAICharacterController::OnMoveCompleted(FAIRequestID RequestID, const FPa
 	TryMoveToNextTarget();
 }
 
-void AZAAICharacterController::BeginPlay()
+void AZAAICharacterController::SetupPatrolling()
 {
-	Super::BeginPlay();
-
 	UAIPatrollingComponent* PatrollingComponent = CachedAICharacter->GetPatrollingComponent();
 	if(PatrollingComponent->CanPatrol())
 	{

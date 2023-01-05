@@ -27,6 +27,8 @@ protected:
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Widgets")
 	TSubclassOf<UPlayerHUDWidget> PlayerHUDWidgetClass;
 private:
+
+	void OnInteractableObjectFound(FName ActionName);
 	
 	bool bIgnoreCameraPitch = false;
 
@@ -53,7 +55,9 @@ private:
 	
 	void PrimaryMeleeAttack();
 	void SecondaryMeleeAttack();
-	
+
+	void Interact();
+	void UseInventory();
 	TSoftObjectPtr<class AZABaseCharacter> CachedBaseCharacter;
 
 	void CreateAndInitizalizeWidgets();

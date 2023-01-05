@@ -22,6 +22,7 @@ const FName DebugCategoryMeleeWeapon = FName("MeleeWeapon");
 
 const FName SectionMontageReloadEnd = FName("ReloadEnd");
 
+const FName ActionInteract = FName("Interact");
 
 const FName BB_CurrentTarget = FName("CurrentTarget");
 const FName BB_NextLocation = FName("NextLocation");

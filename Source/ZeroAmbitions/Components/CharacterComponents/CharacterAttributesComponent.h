@@ -24,6 +24,8 @@ public:
 	bool IsAlive() { return Health > 0.0f; }
 
 	float GetHealthPercent() const;
+
+	void AddHealth(float HealthToAdd);
 protected:
 	virtual void BeginPlay() override;
 
@@ -47,6 +49,7 @@ private:
 
 #if UE_BUILD_DEBUG || UE_BUILD_DEVELOPMENT
 	void DebugDrawAttributes();
+	void OnHealthChanged();
 #endif
 
 	UFUNCTION()
