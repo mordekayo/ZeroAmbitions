@@ -3,9 +3,19 @@
 
 #include "Components/ExplosiveComponent.h"
 
+#include "Components/AudioComponent.h"
 #include "Kismet/GameplayStatics.h"
 #include "Particles/ParticleSystem.h"
 
+
+UExplosiveComponent::UExplosiveComponent()
+{
+	Audio = CreateDefaultSubobject<UAudioComponent>(TEXT("Audio"));
+	if (!this->IsTemplate())
+	{
+		Audio->SetupAttachment(this);
+	}
+}
 
 void UExplosiveComponent::Explode(AController* Controller)
 {
@@ -36,4 +46,7 @@ void UExplosiveComponent::Explode(AController* Controller)
 	{
 		OnExplosion.Broadcast();
 	}
+	
+	Audio->SetSound(FireSound);
+	Audio->Play();
 }

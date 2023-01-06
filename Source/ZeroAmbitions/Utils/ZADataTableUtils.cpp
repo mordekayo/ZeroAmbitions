@@ -8,7 +8,8 @@ FWeaponTableRow* ZADataTableUtils::FindWeaponData(FName WeaponID)
 {
 	static const FString contextString(TEXT("Find Weapon Data"));
 
-	const UDataTable* WeaponDataTable = LoadObject<UDataTable>(nullptr, TEXT("/Game/ZeroAmbitions/Core/Data/DataTables/DT_WeaponList.DT_WeaponList"));
+	const UDataTable* WeaponDataTable = nullptr;
+		//LoadObject<UDataTable>(nullptr, TEXT("/Game/ZeroAmbitions/Core/Data/DataTables/DT_WeaponList.DT_WeaponList"));
 	
 	if(WeaponDataTable == nullptr)
 	{
@@ -22,7 +23,8 @@ FItemTableRow* ZADataTableUtils::FindInventoryItemData(const FName ItemID)
 {
 	static const FString contextString(TEXT("Find Item Data"));
 
-	const UDataTable* InventoryDataTable = LoadObject<UDataTable>(nullptr, TEXT("/Game/ZeroAmbitions/Core/Data/DataTables/DT_InventoryItemList.DT_InventoryItemList"));
+	const UDataTable* InventoryDataTable = nullptr;
+		//LoadObject<UDataTable>(nullptr, TEXT("/Game/ZeroAmbitions/Core/Data/DataTables/DT_InventoryItemList.DT_InventoryItemList"));
 	
 	if(InventoryDataTable == nullptr)
 	{

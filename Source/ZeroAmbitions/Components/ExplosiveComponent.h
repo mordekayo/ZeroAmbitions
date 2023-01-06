@@ -14,6 +14,9 @@ class ZEROAMBITIONS_API UExplosiveComponent : public USceneComponent
 	GENERATED_BODY()
 
 public:
+
+	UExplosiveComponent();
+	
 	UFUNCTION(BlueprintCallable)
 	void Explode(AController* Controller);
 
@@ -21,6 +24,11 @@ public:
 	FOnExplosion OnExplosion;
 	
 protected:
+	UPROPERTY(VisibleDefaultsOnly, BlueprintReadOnly, Category = "Components")
+	class UAudioComponent* Audio;
+
+	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Components")
+	class USoundBase* FireSound;
 	
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Explosion | Damage")
 	float MaxDamage = 75.0f;

@@ -36,34 +36,34 @@ public:
 
 	virtual FRotator GetViewRotation() const override;
 protected:
-	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Components")
+	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Components")
 	USceneComponent* TurretBaseComponent;
 
-	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Components")
+	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Components")
 	USceneComponent* TurretBarellComponent;
 
-	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Components")
+	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Components")
 	UWeaponBarellComponent* WeaponBarellComponent;
 
-	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Turret parameters", meta = (ClampMin = 0.0f, UIMin = 0.0f))
+	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Turret parameters", meta = (ClampMin = 0.0f, UIMin = 0.0f))
 	float BaseSearchingRotationRate = 60.0f;
 
-	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Turret parameters", meta = (ClampMin = 0.0f, UIMin = 0.0f))
+	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Turret parameters", meta = (ClampMin = 0.0f, UIMin = 0.0f))
 	float BaseFiringInterpSpeed = 60.0f;
 
-	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Turret parameters", meta = (ClampMin = 0.0f, UIMin = 0.0f))
+	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Turret parameters", meta = (ClampMin = 0.0f, UIMin = 0.0f))
 	float BarellPitchRotationRate = 60.0f;
 
-	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Turret parameters", meta = (ClampMin = 0.0f, UIMin = 0.0f))
+	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Turret parameters", meta = (ClampMin = 0.0f, UIMin = 0.0f))
 	float MaxBarellPitchAngle = 60.0f;
 
-	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Turret parameters", meta = (ClampMin = 0.0f, UIMin = 0.0f))
+	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Turret parameters", meta = (ClampMin = 0.0f, UIMin = 0.0f))
 	float MinBarrelPitchAngle = -30.0f;
 
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Turret parameters | Fire", meta = (ClampMin = 1.0f, UIMin = 1.0f))
 	float RateOfFire = 300.0f;
 
-	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Turret parameters | Fire", meta = (ClampMin = 0.0f, UIMin = 0.0f, ClampMax = 1.0f, UIMax = 1.0f))
+	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Turret parameters | Fire", meta = (ClampMin = 0.0f, UIMin = 0.0f, ClampMax = 1.0f, UIMax = 1.0f))
 	float BulletSpreadAngle = 0.5f;
 
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Turret parameters | Fire", meta = (ClampMin = 0.0f, UIMin = 0.0f))

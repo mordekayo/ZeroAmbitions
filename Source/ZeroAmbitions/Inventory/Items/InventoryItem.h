@@ -14,7 +14,7 @@ class APickableItem;
 USTRUCT(BlueprintType)
 struct FInventoryItemDescription : public FTableRowBase
 {
-	GENERATED_BODY()
+	GENERATED_USTRUCT_BODY()
 
 public:
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Item view")
@@ -27,7 +27,7 @@ public:
 USTRUCT(BlueprintType)
 struct FWeaponTableRow : public FTableRowBase
 {
-	GENERATED_BODY()
+	GENERATED_USTRUCT_BODY()
 
 public:
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Weapon view")
@@ -43,7 +43,7 @@ public:
 USTRUCT(BlueprintType)
 struct FItemTableRow : public FTableRowBase
 {
-	GENERATED_BODY()
+	GENERATED_USTRUCT_BODY()
 
 public:
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Item view")

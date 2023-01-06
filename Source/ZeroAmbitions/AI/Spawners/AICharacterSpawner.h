@@ -14,16 +14,17 @@ class ZEROAMBITIONS_API AAICharacterSpawner : public AActor
 	GENERATED_BODY()
 	
 public:	
-
 	AAICharacterSpawner();
 
 	UFUNCTION()
 	void SpawnAI();
-	
+
 protected:
 
+#if WITH_EDITOR
 	virtual void PostEditChangeProperty(FPropertyChangedEvent& PropertyChangedEvent) override;
-	
+#endif
+
 	virtual void BeginPlay() override;
 	virtual void EndPlay(const EEndPlayReason::Type EndPlayReason) override;
 
@@ -31,21 +32,23 @@ protected:
 	TSubclassOf<AZAAIBaseCharacter> CharacterClass;
 
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "AI Spawner")
-	bool bIsSpawnOnStart= false;
-	
-	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "AI Spawner")
-	bool bDoOnce = false; 
+	bool bIsSpawnOnStart;
 
-	//An actor implementing IInteractable interface
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "AI Spawner")
-	AActor* SpawnTriggerActor; 
+	bool bDoOnce = false;
+
+	// An actor implementing IInteractable interface
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "AI Spawner")
+	AActor* SpawnTriggerActor;
+
 private:
 	bool bCanSpawn = true;
 
 	void UnSubscribeFromTrigger();
-	
+
 	UPROPERTY()
 	TScriptInterface<IInteractable> SpawnTrigger;
 
 	FDelegateHandle TriggerHandle;
+
 };
