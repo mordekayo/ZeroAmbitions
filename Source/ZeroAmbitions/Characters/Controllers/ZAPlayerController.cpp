@@ -56,10 +56,15 @@ void AZAPlayerController::SetupInputComponent()
 	InputComponent->BindAction(ActionInteract, EInputEvent::IE_Pressed, this, &AZAPlayerController::Interact);
 }
 
-void AZAPlayerController::OnInteractableObjectFound(FName ActionName)
+void AZAPlayerController::OnInteractableObjectFound(bool bIsFound, FName ActionName)
 {
 	if(!IsValid(PlayerHUDWidget))
 	{
+		return;
+	}
+	if(bIsFound == false)
+	{
+		PlayerHUDWidget->SetHighlightInteractibleVisibility(false);
 		return;
 	}
 

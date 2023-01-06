@@ -13,10 +13,19 @@ class ZEROAMBITIONS_API UWeaponBarellComponent : public USceneComponent
 {
 	GENERATED_BODY()
 public:
+
+	UWeaponBarellComponent();
+	
 	void Shot(AController* Controller, float SpreadAngle);
 
 protected:
 
+	UPROPERTY(VisibleDefaultsOnly, BlueprintReadOnly, Category = "Components")
+	UAudioComponent* Audio;
+
+	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Components")
+	USoundBase* FireSound;
+	
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Barell attributes")
 	float FiringRange = 5000.0f;
 

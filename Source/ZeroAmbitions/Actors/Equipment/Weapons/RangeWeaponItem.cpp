@@ -16,7 +16,7 @@ ARangeWeaponItem::ARangeWeaponItem()
 
 	WeaponBarell = CreateDefaultSubobject<UWeaponBarellComponent>(TEXT("WeaponBarell"));
 	WeaponBarell->SetupAttachment(WeaponMesh, SocketBarellMuzzle);
-
+	
 	EquippedSocketName = SocketCharacterWeapon;
 }
 

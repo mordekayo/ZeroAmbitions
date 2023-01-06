@@ -8,6 +8,16 @@
 #include "Kismet/GameplayStatics.h"
 #include "NiagaraFunctionLibrary.h"
 #include "NiagaraComponent.h"
+#include "Components/AudioComponent.h"
+
+UWeaponBarellComponent::UWeaponBarellComponent()
+{
+	Audio = CreateDefaultSubobject<UAudioComponent>(TEXT("Audio"));
+	if (!this->IsTemplate())
+	{
+		Audio->SetupAttachment(this);
+	}
+}
 
 void UWeaponBarellComponent::Shot(AController* Controller, float SpreadAngle)
 {
@@ -57,6 +67,9 @@ void UWeaponBarellComponent::Shot(AController* Controller, float SpreadAngle)
 		{
 			DrawDebugLine(GetWorld(), ShotStart, ShotEnd, FColor::Red, false, 1.0f, 0, 3.0f);
 		}
+
+		Audio->SetSound(FireSound);
+		Audio->Play();
 	}
 }
 

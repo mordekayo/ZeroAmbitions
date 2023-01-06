@@ -11,7 +11,7 @@
 
 class UInventoryItem;
 class AEquipableItem;
-DECLARE_DELEGATE_OneParam(FOnInteractableObjectFound, FName);
+DECLARE_DELEGATE_TwoParams(FOnInteractableObjectFound, bool, FName);
 
 class UZABaseCharacterMovementComponent;
 class UCharacterAttributesComponent;

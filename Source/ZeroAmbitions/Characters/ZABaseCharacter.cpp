@@ -381,9 +381,10 @@ void AZABaseCharacter::TraceLineOfSight()
 			{
 				ActionName = NAME_None;
 			}
-			OnInteractableObjectFound.ExecuteIfBound(ActionName);
+			OnInteractableObjectFound.ExecuteIfBound(true ,ActionName);
 		}
 	}
+	OnInteractableObjectFound.ExecuteIfBound(false ,NAME_None);
 }
 
 void AZABaseCharacter::OnDeath()

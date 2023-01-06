@@ -28,7 +28,7 @@ protected:
 	TSubclassOf<UPlayerHUDWidget> PlayerHUDWidgetClass;
 private:
 
-	void OnInteractableObjectFound(FName ActionName);
+	void OnInteractableObjectFound(bool bIsFound, FName ActionName);
 	
 	bool bIgnoreCameraPitch = false;
 
