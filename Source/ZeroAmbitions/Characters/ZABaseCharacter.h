@@ -80,7 +80,8 @@ public:
 
 	void UseInventory(APlayerController* PlayerController);
 	bool PickupItem(TWeakObjectPtr<UInventoryItem> ItemToPickup);
-	void AddEquipmentItem(const TSubclassOf<AEquipableItem> EquipableItemClass) const;
+	
+	void ConfirmWeaponSelection();
 	
 	FOnInteractableObjectFound OnInteractableObjectFound;
 	/** IGenericTeamAgentInterface*/

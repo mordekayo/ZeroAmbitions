@@ -27,7 +27,11 @@ public:
 	virtual void SetOwner(AActor* NewOwner) override;
 
 	virtual void Equip();
-	virtual void UnEquip(); 
+	virtual void UnEquip();
+	
+	FName GetDataTableID() const;
+
+	bool IsSlotCompatible(EEquipmentSlots Slot);
 protected:
 
 	UPROPERTY(BlueprintAssignable)
@@ -44,7 +48,10 @@ protected:
 
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Equipable item")
 	FName EquippedSocketName = NAME_None;
-
+	
+	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Equipable item")
+	TArray<EEquipmentSlots> CompatableEquipmentSlots;
+	
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Equipable item")
 	FName DataTableID = NAME_None;
 

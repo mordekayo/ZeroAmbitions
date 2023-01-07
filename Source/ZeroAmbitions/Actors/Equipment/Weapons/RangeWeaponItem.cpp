@@ -31,6 +31,7 @@ void ARangeWeaponItem::StartFire()
 		return;
 	}
 	MakeShot();
+	bIsFiring = true;
 }
 
 void ARangeWeaponItem::StopFire()

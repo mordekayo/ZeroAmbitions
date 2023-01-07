@@ -19,6 +19,7 @@ public:
 	
 	APickableWeapon();
 
+	UFUNCTION(BlueprintCallable)
 	virtual void Interact(AZABaseCharacter* Character) override;
 	virtual FName GetActionEventName() const override;
 

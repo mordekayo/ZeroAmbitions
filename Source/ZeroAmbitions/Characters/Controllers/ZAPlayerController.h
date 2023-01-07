@@ -58,6 +58,9 @@ private:
 
 	void Interact();
 	void UseInventory();
+
+	void ConfirmWeaponWheelSelection();
+	
 	TSoftObjectPtr<class AZABaseCharacter> CachedBaseCharacter;
 
 	void CreateAndInitizalizeWidgets();

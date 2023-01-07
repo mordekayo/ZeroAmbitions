@@ -53,6 +53,16 @@ void AEquipableItem::UnEquip()
 	}
 }
 
+FName AEquipableItem::GetDataTableID() const
+{
+	return DataTableID;
+}
+
+bool AEquipableItem::IsSlotCompatible(EEquipmentSlots Slot)
+{
+	return CompatableEquipmentSlots.Contains(Slot);
+}
+
 AZABaseCharacter* AEquipableItem::GetCharacterOwner() const
 {
 	return CachedCharacterOwner.IsValid() ? CachedCharacterOwner.Get() : nullptr;

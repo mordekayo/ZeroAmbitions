@@ -9,6 +9,8 @@
 #include "Actors/Equipment/Weapons/RangeWeaponItem.h"
 #include "CharacterEquipmentComponent.generated.h"
 
+class UWeaponWheelWidget;
+class UEquipmentViewWidget;
 class AMeleeWeaponItem;
 class AThrowableItem;
 typedef TArray<AEquipableItem*, TInlineAllocator<static_cast<uint32>(EEquipmentSlots::MAX)>> TItemsArray;
@@ -47,7 +49,21 @@ public:
 
 	void LaunchCurrentThrowableItem();
 
-	void AddEquipmentItem(const TSubclassOf<AEquipableItem> EquipableItemClass);
+	bool AddEquipmentItemToSlot(const TSubclassOf<AEquipableItem> EquipableItemClass, int32 SlotIndex);
+
+	void RemoveItemFromSlot(int32 SlotIndex);
+
+	void OpenViewEquipment(APlayerController* PlayerController);
+	void CloseViewEquipment();
+	bool IsViewVisible() const;
+
+	void OpenWeaponWheel(APlayerController* PlayerController);
+
+	bool IsSelectingWeapon() const;
+
+	void ConfirmWeaponSelection() const;
+
+	const TArray<AEquipableItem*>& GetItems() const;
 	
 protected:
 	
@@ -67,10 +83,18 @@ protected:
 	
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Loadout")
 	EEquipmentSlots AutoEquipItemInSlot = EEquipmentSlots::None;
-	
+
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Loadout")
+	TSubclassOf<UEquipmentViewWidget> ViewWidgetClass;
+
+	void CreateEquipmentWidgets(APlayerController* PlayerController);
+
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Loadout")
+	TSubclassOf<UWeaponWheelWidget> WeaponWheelWidgetClass;
 private:
+	
 	TAmmunitionArray AmmunitionArray;
-	TItemsArray ItemsArray;
+	TArray<AEquipableItem*> ItemsArray;
 
 	bool bIsEquipping = false;
 	UFUNCTION()
@@ -99,6 +123,9 @@ private:
 	TWeakObjectPtr<class AZABaseCharacter> CachedBaseCharacter;
 
 	FTimerHandle EquipTimer;
+
+	UEquipmentViewWidget* ViewWidget;
+	UWeaponWheelWidget* WeaponWheelWidget;
 };
 
 

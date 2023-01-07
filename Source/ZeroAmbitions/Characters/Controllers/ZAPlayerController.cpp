@@ -53,6 +53,7 @@ void AZAPlayerController::SetupInputComponent()
 	InputComponent->BindAction("PrimaryMeleeAttack", EInputEvent::IE_Pressed, this, &AZAPlayerController::PrimaryMeleeAttack);
 	InputComponent->BindAction("SecondaryMeleeAttack", EInputEvent::IE_Pressed, this, &AZAPlayerController::SecondaryMeleeAttack);
 	InputComponent->BindAction("UseInventory", EInputEvent::IE_Pressed, this, &AZAPlayerController::UseInventory);
+	InputComponent->BindAction("ConfirmWeaponWheel", EInputEvent::IE_Pressed, this, &AZAPlayerController::ConfirmWeaponWheelSelection);
 	InputComponent->BindAction(ActionInteract, EInputEvent::IE_Pressed, this, &AZAPlayerController::Interact);
 }
 
@@ -242,6 +243,14 @@ void AZAPlayerController::UseInventory()
 	if(CachedBaseCharacter.IsValid())
 	{
 		CachedBaseCharacter->UseInventory(this);
+	}
+}
+
+void AZAPlayerController::ConfirmWeaponWheelSelection()
+{
+	if(CachedBaseCharacter.IsValid())
+	{
+		CachedBaseCharacter->ConfirmWeaponSelection();
 	}
 }
 

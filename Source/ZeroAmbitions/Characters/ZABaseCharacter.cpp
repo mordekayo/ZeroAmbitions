@@ -120,20 +120,23 @@ void AZABaseCharacter::Interact()
 
 void AZABaseCharacter::UseInventory(APlayerController* PlayerController)
 {
-	if(!IsValid(PlayerController))
+	if (!IsValid(PlayerController))
 	{
 		return;
 	}
-	
-	if(!CharacterInventoryComponent->IsViewVisible())
+	if (!CharacterInventoryComponent->IsViewVisible())
 	{
 		CharacterInventoryComponent->OpenViewInventory(PlayerController);
+		CharacterEquipmentComponent->OpenViewEquipment(PlayerController);
 		PlayerController->SetInputMode(FInputModeGameAndUI{});
+		PlayerController->bShowMouseCursor = true;
 	}
 	else
 	{
 		CharacterInventoryComponent->CloseViewInventory();
+		CharacterEquipmentComponent->CloseViewEquipment();
 		PlayerController->SetInputMode(FInputModeGameOnly{});
+		PlayerController->bShowMouseCursor = false;
 	}
 }
 
@@ -148,6 +151,13 @@ bool AZABaseCharacter::PickupItem(TWeakObjectPtr<UInventoryItem> ItemToPickup)
 	return Result;
 }
 
+void AZABaseCharacter::ConfirmWeaponSelection()
+{
+	if (CharacterEquipmentComponent->IsSelectingWeapon())
+	{
+		CharacterEquipmentComponent->ConfirmWeaponSelection();
+	}
+}
 
 FGenericTeamId AZABaseCharacter::GetGenericTeamId() const
 {
@@ -263,6 +273,10 @@ float AZABaseCharacter::CalculateIKPelvisOffset() const
 
 void AZABaseCharacter::StartFire()
 {
+	if(CharacterEquipmentComponent->IsSelectingWeapon())
+	{
+		return;
+	}
 	if(CharacterEquipmentComponent->IsEqupping())
 	{
 		return;
@@ -389,16 +403,12 @@ void AZABaseCharacter::TraceLineOfSight()
 
 void AZABaseCharacter::OnDeath()
 {
+	GetCharacterMovement()->DisableMovement();
 	float Duration = PlayAnimMontage(OnDeathAnimMontage);
 	if (Duration == 0.0f)
 	{
 		EnableRagdoll();
 	}
-}
-
-void AZABaseCharacter::AddEquipmentItem(const TSubclassOf<AEquipableItem> EquipableItemClass) const
-{
-	CharacterEquipmentComponent->AddEquipmentItem(EquipableItemClass);
 }
 
 void AZABaseCharacter::OnStaminaOutOrMax(bool MaxOrOut)

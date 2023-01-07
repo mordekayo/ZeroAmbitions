@@ -15,6 +15,8 @@ class ZEROAMBITIONS_API APickablePowerUp : public APickableItem
 	GENERATED_BODY()
 public:
 	APickablePowerUp();
+
+	UFUNCTION(BlueprintCallable)
 	virtual void Interact(AZABaseCharacter* Character) override;
 	virtual FName GetActionEventName() const override;
 
