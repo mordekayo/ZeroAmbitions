@@ -129,14 +129,12 @@ void AZABaseCharacter::UseInventory(APlayerController* PlayerController)
 		CharacterInventoryComponent->OpenViewInventory(PlayerController);
 		CharacterEquipmentComponent->OpenViewEquipment(PlayerController);
 		PlayerController->SetInputMode(FInputModeGameAndUI{});
-		PlayerController->bShowMouseCursor = true;
 	}
 	else
 	{
 		CharacterInventoryComponent->CloseViewInventory();
 		CharacterEquipmentComponent->CloseViewEquipment();
 		PlayerController->SetInputMode(FInputModeGameOnly{});
-		PlayerController->bShowMouseCursor = false;
 	}
 }
 
