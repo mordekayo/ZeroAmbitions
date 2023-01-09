@@ -65,6 +65,8 @@ private:
 
 	void CreateAndInitizalizeWidgets();
 
+	void RestartGame();
+
 	UPlayerHUDWidget* PlayerHUDWidget = nullptr;
 	
 };

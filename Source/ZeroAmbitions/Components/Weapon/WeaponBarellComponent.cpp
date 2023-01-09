@@ -8,7 +8,9 @@
 #include "Kismet/GameplayStatics.h"
 #include "NiagaraFunctionLibrary.h"
 #include "NiagaraComponent.h"
+#include "Characters/ZAPlayerCharacter.h"
 #include "Components/AudioComponent.h"
+#include "Components/CharacterComponents/CharacterAttributesComponent.h"
 
 UWeaponBarellComponent::UWeaponBarellComponent()
 {

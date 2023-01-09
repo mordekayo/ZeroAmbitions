@@ -18,12 +18,21 @@ float UZABaseCharacterMovementComponent::GetMaxSpeed() const
 	{
 		Result = OutOfStaminaMaxSpeed;
 	}
+	else if (bIsPussy)
+	{
+		Result = PussySpeed;
+	}
 	return Result;
 }
 
 void UZABaseCharacterMovementComponent::SetIsOutOfStamina(bool bIsOutOfStamina_In)
 {
 	bIsOutOfStamina = bIsOutOfStamina_In;
+}
+
+void UZABaseCharacterMovementComponent::SetPussyState(bool bIsPussy_In)
+{
+	bIsPussy = bIsPussy_In;
 }
 
 void UZABaseCharacterMovementComponent::StartSprint()

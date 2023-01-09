@@ -2,6 +2,8 @@
 
 #include "WeaponInventoryItem.h"
 
+#include "Components/CharacterComponents/CharacterEquipmentComponent.h"
+
 UWeaponInventoryItem::UWeaponInventoryItem()
 {
 	bIsConsumable = true;

@@ -22,9 +22,20 @@ public:
 	void SetHighlightInteractibleVisibility(bool bIsVisible);
 
 	void SetHighLightInteractibleActionText(FName KeyName);
+	
 protected:
+
+	UFUNCTION(BlueprintCallable)
+	ESlateVisibility IsAlive() const;
+	
 	UFUNCTION(BlueprintCallable)
 	float GetHealthPercent() const;
+
+	UFUNCTION(BlueprintCallable)
+	float GetAdrenalinePercent() const;
+
+	UFUNCTION(BlueprintCallable)
+	FString GetAdrenalineState() const;
 
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Widget names")
 	FName AmmoWidgetName;

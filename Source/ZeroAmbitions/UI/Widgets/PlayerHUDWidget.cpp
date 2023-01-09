@@ -45,6 +45,26 @@ void UPlayerHUDWidget::SetHighLightInteractibleActionText(FName KeyName)
 	}
 }
 
+ESlateVisibility UPlayerHUDWidget::IsAlive() const
+{
+	ESlateVisibility Result = ESlateVisibility::Hidden;
+	APawn* Pawn = GetOwningPlayerPawn();
+	AZABaseCharacter* BaseCharacter = Cast<AZABaseCharacter>(Pawn);
+	if (IsValid(BaseCharacter))
+	{
+		UCharacterAttributesComponent* CharacterAttributes = BaseCharacter->GetCharacterAttributesComponent_Mutable();
+		if(CharacterAttributes->IsAlive())
+		{
+			Result = ESlateVisibility::Hidden;
+		}
+		else
+		{
+			Result = ESlateVisibility::Visible;
+		}
+	}
+	return Result;
+}
+
 float UPlayerHUDWidget::GetHealthPercent() const
 {
 	float Result = 1.0f;
@@ -54,6 +74,34 @@ float UPlayerHUDWidget::GetHealthPercent() const
 	{
 		const UCharacterAttributesComponent* CharacterAttributes = BaseCharacter->GetCharacterAttributesComponent();
 		Result = CharacterAttributes->GetHealthPercent();
+	}
+
+	return Result;
+}
+
+float UPlayerHUDWidget::GetAdrenalinePercent() const
+{
+	float Result = 1.0f;
+	APawn* Pawn = GetOwningPlayerPawn();
+	AZABaseCharacter* BaseCharacter = Cast<AZABaseCharacter>(Pawn);
+	if (IsValid(BaseCharacter))
+	{
+		const UCharacterAttributesComponent* CharacterAttributes = BaseCharacter->GetCharacterAttributesComponent();
+		Result = CharacterAttributes->GetAdrenalinePercent();
+	}
+
+	return Result;
+}
+
+FString UPlayerHUDWidget::GetAdrenalineState() const
+{
+	FString Result = TEXT("Error");
+	APawn* Pawn = GetOwningPlayerPawn();
+	AZABaseCharacter* BaseCharacter = Cast<AZABaseCharacter>(Pawn);
+	if (IsValid(BaseCharacter))
+	{
+		const UCharacterAttributesComponent* CharacterAttributes = BaseCharacter->GetCharacterAttributesComponent();
+		Result = CharacterAttributes->GetAdrenalineState();
 	}
 
 	return Result;

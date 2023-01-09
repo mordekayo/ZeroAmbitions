@@ -20,6 +20,8 @@ public:
 
 	FORCEINLINE bool IsOutOfStamina() const { return bIsOutOfStamina; }
 	void SetIsOutOfStamina(bool bIsOutOfStamina_In);
+	
+	void SetPussyState(bool bIsPussy_In);
 
 	bool IsSprinting() const { return bIsSprinting; }
 	virtual float GetMaxSpeed() const override;
@@ -49,6 +51,9 @@ protected:
 
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Character movement: sprint", meta = (ClampMin = 0.0f, UIMin = 0.0f))
 	float OutOfStaminaMaxSpeed = 150.0f;
+	
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Character movement: sprint", meta = (ClampMin = 0.0f, UIMin = 0.0f))
+	float PussySpeed = 200.0f;
 
 private:
 
@@ -57,6 +62,7 @@ private:
 
 	bool bIsSprinting;
 	bool bIsOutOfStamina;
+	bool bIsPussy = false;
 	
 	FRotator ForcedTargetRotation = FRotator::ZeroRotator;
 	bool bForceRotation = false;

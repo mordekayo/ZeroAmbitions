@@ -64,6 +64,8 @@ public:
 	void ConfirmWeaponSelection() const;
 
 	const TArray<AEquipableItem*>& GetItems() const;
+
+	void AddAmmunitionByType(EAmmunitionType AmmunitionType, int32 AmmoAmount);
 	
 protected:
 	
@@ -108,6 +110,7 @@ private:
 	uint32 PreviousItemArraySlotIndex(uint32 CurrentSlotIndex) const;
 
 	int32 GetAvailableAmmunitionForCurrentWeapon();
+
 	UFUNCTION()
 	void OnCurrentWeaponAmmoChanged(int32 NewAmmo);
 
@@ -116,15 +119,21 @@ private:
 
 	EEquipmentSlots PreviousEquippedSlot;
 	EEquipmentSlots CurrentEquippedSlot;
+	UPROPERTY()
 	AEquipableItem* CurrentEquippedItem;
+	UPROPERTY()
 	ARangeWeaponItem* CurrentEquippedWeapon;
+	UPROPERTY()
 	AThrowableItem* CurrentThrowableItem;
+	UPROPERTY()
 	AMeleeWeaponItem* CurrentMeleeWeaponItem;
 	TWeakObjectPtr<class AZABaseCharacter> CachedBaseCharacter;
 
 	FTimerHandle EquipTimer;
 
+	UPROPERTY()
 	UEquipmentViewWidget* ViewWidget;
+	UPROPERTY()
 	UWeaponWheelWidget* WeaponWheelWidget;
 };
 

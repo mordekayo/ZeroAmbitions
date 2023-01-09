@@ -433,6 +433,12 @@ int32 UCharacterEquipmentComponent::GetAvailableAmmunitionForCurrentWeapon()
 	return AmmunitionArray[static_cast<uint32>(GetCurrentRangeWeapon()->GetAmmoType())];
 }
 
+void UCharacterEquipmentComponent::AddAmmunitionByType(EAmmunitionType AmmunitionType, int32 AmmoAmount)
+{
+	AmmunitionArray[static_cast<uint32>(AmmunitionType)] += AmmoAmount;
+}
+
+
 void UCharacterEquipmentComponent::OnCurrentWeaponAmmoChanged(int32 NewAmmo)
 {
 	if(OnCurrentWeaponAmmoChangedEvent.IsBound())

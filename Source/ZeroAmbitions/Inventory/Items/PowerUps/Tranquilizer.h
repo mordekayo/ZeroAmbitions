@@ -4,13 +4,13 @@
 
 #include "CoreMinimal.h"
 #include "Inventory/Items/InventoryItem.h"
-#include "Adrenaline.generated.h"
+#include "Tranquilizer.generated.h"
 
 /**
  * 
  */
 UCLASS()
-class ZEROAMBITIONS_API UAdrenaline : public UInventoryItem
+class ZEROAMBITIONS_API UTranquilizer : public UInventoryItem
 {
 	GENERATED_BODY()
 
@@ -19,5 +19,5 @@ public:
 	
 protected:
 	UPROPERTY(EditDefaultsOnly, Category = "Medkit")
-	float AdrenalineAmount = 25.0f;
+	float AdrenalineAmount = -25.0f;
 };

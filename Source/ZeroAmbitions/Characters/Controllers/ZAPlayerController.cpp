@@ -54,6 +54,7 @@ void AZAPlayerController::SetupInputComponent()
 	InputComponent->BindAction("SecondaryMeleeAttack", EInputEvent::IE_Pressed, this, &AZAPlayerController::SecondaryMeleeAttack);
 	InputComponent->BindAction("UseInventory", EInputEvent::IE_Pressed, this, &AZAPlayerController::UseInventory);
 	InputComponent->BindAction("ConfirmWeaponWheel", EInputEvent::IE_Pressed, this, &AZAPlayerController::ConfirmWeaponWheelSelection);
+	InputComponent->BindAction("RestartGame", EInputEvent::IE_Pressed, this, &AZAPlayerController::RestartGame);
 	InputComponent->BindAction(ActionInteract, EInputEvent::IE_Pressed, this, &AZAPlayerController::Interact);
 }
 
@@ -281,4 +282,9 @@ void AZAPlayerController::CreateAndInitizalizeWidgets()
 		}
 		CharacterEquipment->UpdateAmmoAndItemsAmount();
 	}
+}
+
+void AZAPlayerController::RestartGame()
+{
+	RestartLevel();
 }

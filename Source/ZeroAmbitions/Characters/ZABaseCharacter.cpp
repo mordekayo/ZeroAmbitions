@@ -14,6 +14,7 @@
 #include "Kismet/KismetSystemLibrary.h"
 #include "Actors/Equipment/Weapons/RangeWeaponItem.h"
 #include "Actors/Interactive/Interface/Interactive.h"
+#include "AI/Controllers/ZAAIController.h"
 #include "Components/CapsuleComponent.h"
 #include "Components/CharacterComponents/CharacterInventoryComponent.h"
 #include "Kismet/KismetMathLibrary.h"
@@ -134,7 +135,7 @@ void AZABaseCharacter::UseInventory(APlayerController* PlayerController)
 	{
 		CharacterInventoryComponent->CloseViewInventory();
 		CharacterEquipmentComponent->CloseViewEquipment();
-		PlayerController->SetInputMode(FInputModeGameOnly{});
+		PlayerController->SetInputMode(FInputModeGameAndUI{});
 	}
 }
 
@@ -402,10 +403,15 @@ void AZABaseCharacter::TraceLineOfSight()
 void AZABaseCharacter::OnDeath()
 {
 	GetCharacterMovement()->DisableMovement();
-	float Duration = PlayAnimMontage(OnDeathAnimMontage);
+	const float Duration = PlayAnimMontage(OnDeathAnimMontage);
 	if (Duration == 0.0f)
 	{
 		EnableRagdoll();
+	}
+	const auto AIController = GetController<AZAAIController>();
+	if(IsValid(AIController))
+	{
+		AIController->UnPossess();
 	}
 }
 
