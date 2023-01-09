@@ -8,6 +8,7 @@
 #include "ItemsWidget.h"
 #include "Blueprint/WidgetTree.h"
 #include "Characters/ZABaseCharacter.h"
+#include "Characters/ZAPlayerCharacter.h"
 #include "Components/CharacterComponents/CharacterAttributesComponent.h"
 
 UAmmoWidget* UPlayerHUDWidget::GetAmmoWidget() const
@@ -45,6 +46,25 @@ void UPlayerHUDWidget::SetHighLightInteractibleActionText(FName KeyName)
 	}
 }
 
+ESlateVisibility UPlayerHUDWidget::IsWin() const
+{
+	ESlateVisibility Result = ESlateVisibility::Hidden;
+	APawn* Pawn = GetOwningPlayerPawn();
+	AZAPlayerCharacter* Player = Cast<AZAPlayerCharacter>(Pawn);
+	if (IsValid(Player))
+	{
+		if(Player->GetIsWon())
+		{
+			Result = ESlateVisibility::Visible;
+		}
+		else
+		{
+			Result = ESlateVisibility::Hidden;
+		}
+	}
+	return Result;
+}
+
 ESlateVisibility UPlayerHUDWidget::IsAlive() const
 {
 	ESlateVisibility Result = ESlateVisibility::Hidden;
@@ -62,6 +82,20 @@ ESlateVisibility UPlayerHUDWidget::IsAlive() const
 			Result = ESlateVisibility::Visible;
 		}
 	}
+	return Result;
+}
+
+int UPlayerHUDWidget::GetPulse() const
+{
+	int Result = 0;
+	APawn* Pawn = GetOwningPlayerPawn();
+	AZABaseCharacter* BaseCharacter = Cast<AZABaseCharacter>(Pawn);
+	if (IsValid(BaseCharacter))
+	{
+		const UCharacterAttributesComponent* CharacterAttributes = BaseCharacter->GetCharacterAttributesComponent();
+		Result = CharacterAttributes->GetAdrenaline();
+	}
+
 	return Result;
 }
 

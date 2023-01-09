@@ -2,6 +2,8 @@
 
 
 #include "CharacterAttributesComponent.h"
+
+#include "AIController.h"
 #include "../../Characters/ZABaseCharacter.h"
 #include "Kismet/GameplayStatics.h"
 #include "../../Subsystems/DebugSubsystem.h"
@@ -40,7 +42,11 @@ void UCharacterAttributesComponent::TickComponent(float DeltaTime, ELevelTick Ti
 	DebugDrawAttributes();
 #endif
 	UpdateStaminaValue(DeltaTime);
-	UpdateAdrenalineValue(DeltaTime);
+	const AAIController* AIController = Cast<AAIController>(CachedBaseCharacterOwner->GetController());
+	if(!IsValid(AIController))
+	{
+		UpdateAdrenalineValue(DeltaTime);
+	}
 }
 
 float UCharacterAttributesComponent::GetHealthPercent() const
@@ -51,6 +57,11 @@ float UCharacterAttributesComponent::GetHealthPercent() const
 float UCharacterAttributesComponent::GetAdrenalinePercent() const
 {
 	return Adrenaline / MaxAdrenaline;
+}
+
+float UCharacterAttributesComponent::GetAdrenaline() const
+{
+	return Adrenaline;
 }
 
 FString UCharacterAttributesComponent::GetAdrenalineState() const
@@ -194,7 +205,7 @@ void UCharacterAttributesComponent::OnTakeAnyDamage(AActor* DamagedActor, float 
 	if(IsValid(InstigatorCharacter))
 	{
 		UCharacterAttributesComponent* CharacterAttributes = InstigatorCharacter->GetCharacterAttributesComponent_Mutable();
-		CharacterAttributes->AddAdrenaline(Damage * 0.25);
+		CharacterAttributes->AddAdrenaline(Damage * 0.5);
 	}
 }
 

@@ -89,6 +89,16 @@ void AZAPlayerCharacter::OnJumped_Implementation()
 	}
 }
 
+void AZAPlayerCharacter::SetIsWon(bool IsWon_In)
+{
+	bIsWon = IsWon_In;
+}
+
+bool AZAPlayerCharacter::GetIsWon()
+{
+	return bIsWon;
+}
+
 bool AZAPlayerCharacter::CanJumpInternal_Implementation() const
 {
 	return Super::CanJumpInternal_Implementation();

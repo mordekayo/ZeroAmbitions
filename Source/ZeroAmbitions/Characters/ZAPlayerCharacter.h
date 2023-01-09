@@ -29,6 +29,12 @@ public:
 
 	virtual bool CanJumpInternal_Implementation() const override;
 	virtual void OnJumped_Implementation() override;
+
+	UFUNCTION(BlueprintCallable)
+	void SetIsWon(bool IsWon_In);
+	
+	UFUNCTION(BlueprintCallable)
+	bool GetIsWon();
 protected:
 	
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Character | Camera")
@@ -36,4 +42,8 @@ protected:
 
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Character | Camera")
 	class USpringArmComponent* SpringArmComponent;
+
+private:
+
+	bool bIsWon = false;
 };

@@ -33,6 +33,7 @@ public:
 
 	float GetHealthPercent() const;
 	float GetAdrenalinePercent() const;
+	float GetAdrenaline() const;
 	FString GetAdrenalineState() const;
 
 	void AddHealth(float HealthToAdd);
@@ -42,7 +43,7 @@ protected:
 	virtual void BeginPlay() override;
 
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Health", meta = (UIMin = 0.0f))
-	float MaxAdrenaline = 100.0f;
+	float MaxAdrenaline = 200.0f;
 	
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Health", meta = (UIMin = 0.0f))
 	float MaxHealth = 100.0f;
@@ -51,7 +52,7 @@ protected:
 	float MaxStamina = 100.0f;
 	
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Stamina", meta = (UIMin = 0.0f))
-	float AdrenalineConsumptionVelocity = 1.0f;
+	float AdrenalineConsumptionVelocity = 2.0f;
 	
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Stamina", meta = (UIMin = 0.0f))
 	float StaminaRestoreVelocity = 50.0f;

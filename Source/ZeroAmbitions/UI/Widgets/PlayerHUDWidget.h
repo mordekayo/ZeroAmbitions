@@ -26,7 +26,13 @@ public:
 protected:
 
 	UFUNCTION(BlueprintCallable)
+	ESlateVisibility IsWin() const;
+	
+	UFUNCTION(BlueprintCallable)
 	ESlateVisibility IsAlive() const;
+
+	UFUNCTION(BlueprintCallable)
+	int GetPulse() const;
 	
 	UFUNCTION(BlueprintCallable)
 	float GetHealthPercent() const;

@@ -20,7 +20,7 @@ UExplosiveComponent::UExplosiveComponent()
 void UExplosiveComponent::Explode(AController* Controller)
 {
 	TArray<AActor*> IgnoredActors;
-	IgnoredActors.Add(GetOwner());
+	//IgnoredActors.Add(GetOwner());
 	
 	UGameplayStatics::ApplyRadialDamageWithFalloff(
 		GetWorld(),
